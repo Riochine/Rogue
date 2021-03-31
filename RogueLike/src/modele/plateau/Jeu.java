@@ -5,6 +5,10 @@
  */
 package modele.plateau;
 
+import modele.plateau.entiteStatique.CaseNormale;
+import modele.plateau.entiteStatique.EntiteStatique;
+import modele.plateau.entiteStatique.Mur;
+
 import java.util.Observable;
 
 

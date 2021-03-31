@@ -1,5 +1,5 @@
-package modele.plateau;
-
+package modele.plateau.entiteStatique;
+import modele.plateau.*;
 /**
  * Ne bouge pas (murs...)
  */
