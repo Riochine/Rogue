@@ -12,6 +12,8 @@ public class Heros {
     private int x;
     private int y;
 
+    private Inventaire inventaire;
+
     private Jeu jeu;
 
     public int getX() {
@@ -26,6 +28,7 @@ public class Heros {
         jeu = _jeu;
         x = _x;
         y = _y;
+        inventaire = new Inventaire();
     }
 
     public void droite() {
