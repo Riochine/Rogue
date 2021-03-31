@@ -69,7 +69,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1617203201640</updated>
-      <workItem from="1617203202990" duration="6640000" />
+      <workItem from="1617203202990" duration="9609000" />
     </task>
     <servers />
   </component>
@@ -88,6 +88,6 @@
     </option>
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/RogueLike$Main.ic" NAME="Main Coverage Results" MODIFIED="1617217325968" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/RogueLike$Main.ic" NAME="Main Coverage Results" MODIFIED="1617222674630" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

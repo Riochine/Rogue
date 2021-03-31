@@ -15,9 +15,7 @@ import javax.swing.*;
 
 
 import modele.plateau.*;
-import modele.plateau.entiteStatique.CaseNormale;
-import modele.plateau.entiteStatique.EntiteStatique;
-import modele.plateau.entiteStatique.Mur;
+import modele.plateau.entiteStatique.*;
 
 
 /** Cette classe a deux fonctions :
@@ -127,7 +125,16 @@ public class VueControleur extends JFrame implements Observer {
 				EntiteStatique e = jeu.getEntite(x, y);
                 if (e instanceof Mur) {
                     tabJLabel[x][y].setIcon(icoMur);
-                } else if (e instanceof CaseNormale) {
+                } else if (e instanceof CaseVide) {
+                    tabJLabel[x][y].setIcon(icoVide);
+                }
+                else if (e instanceof Porte) {
+                    tabJLabel[x][y].setIcon(icoPorte);
+                }
+                else if (e instanceof CaseFeu) {
+                    tabJLabel[x][y].setIcon(icoFeu);
+                }
+                else if (e instanceof CaseNormale) {
                     tabJLabel[x][y].setIcon(icoCaseNormale);
                 }
             }
