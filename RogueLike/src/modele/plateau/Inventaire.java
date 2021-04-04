@@ -11,4 +11,16 @@ public class Inventaire {
     public Inventaire() {
         inventaire = new ArrayList<Collectible>();
     }
+
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Inventaire : \n");
+
+        for (Collectible c : inventaire) {
+            sb.append("-").append(c.getName());
+            sb.append("\n");
+        }
+
+        return sb.toString();
+    }
 }

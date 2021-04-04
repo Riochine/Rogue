@@ -29,8 +29,14 @@ public class VueControleur extends JFrame implements Observer {
     private int sizeX; // taille de la grille affichée
     private int sizeY;
 
+    //Constantes pour l'orientation du joueur
+    private final int O_UP = 0;
+    private final int O_RIGHT = 1;
+    private final int O_DOWN = 2;
+    private final int O_LEFT = 3;
+
     // icones affichées dans la grille
-    private ImageIcon icoHero;
+    private ImageIcon[] icoHero = new ImageIcon[4];
     private ImageIcon icoCaseNormale;
     private ImageIcon icoMur;
     private ImageIcon icoVide;
@@ -59,11 +65,11 @@ public class VueControleur extends JFrame implements Observer {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch(e.getKeyCode()) {  // on regarde quelle touche a été pressée
-                    case KeyEvent.VK_LEFT : jeu.getHeros().gauche(); break;
-                    case KeyEvent.VK_RIGHT : jeu.getHeros().droite();break;
-                    case KeyEvent.VK_DOWN : jeu.getHeros().bas(); break;
-                    case KeyEvent.VK_UP : jeu.getHeros().haut(); break;
-
+                    case KeyEvent.VK_LEFT : jeu.getHeros().changer_direction(O_LEFT); break;
+                    case KeyEvent.VK_RIGHT : jeu.getHeros().changer_direction(O_RIGHT);break;
+                    case KeyEvent.VK_DOWN : jeu.getHeros().changer_direction(O_DOWN); break;
+                    case KeyEvent.VK_UP : jeu.getHeros().changer_direction(O_UP); break;
+                    case KeyEvent.VK_SPACE : jeu.getHeros().action(); break;
                 }
             }
         });
@@ -71,7 +77,10 @@ public class VueControleur extends JFrame implements Observer {
 
 
     private void chargerLesIcones() {
-        icoHero = chargerIcone("Images/Pacman.png");
+        icoHero[0] = chargerIcone("Images/Player_UP.png");
+        icoHero[1] = chargerIcone("Images/Player_RIGHT.png");
+        icoHero[2] = chargerIcone("Images/Player_DOWN.png");
+        icoHero[3] = chargerIcone("Images/Player_LEFT.png");
         icoCaseNormale = chargerIcone("Images/Normale.png");
         icoMur = chargerIcone("Images/Mur.png");
         icoVide = chargerIcone("Images/Vide.png");
@@ -88,7 +97,7 @@ public class VueControleur extends JFrame implements Observer {
         try {
             image = ImageIO.read(new File(urlIcone));
         } catch (IOException ex) {
-            Logger.getLogger(VueControleur.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(VueControleur.class.getName()).log(Level.SEVERE, urlIcone, ex);
             return null;
         }
 
@@ -142,7 +151,7 @@ public class VueControleur extends JFrame implements Observer {
 
 
 
-        tabJLabel[jeu.getHeros().getX()][jeu.getHeros().getY()].setIcon(icoHero);
+        tabJLabel[jeu.getHeros().getX()][jeu.getHeros().getY()].setIcon(icoHero[jeu.getHeros().getOrientation()]);
 
     }
 

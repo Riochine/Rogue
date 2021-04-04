@@ -11,6 +11,13 @@ package modele.plateau;
 public class Heros {
     private int x;
     private int y;
+    private int orientation;
+
+    //Constantes pour l'orientation du joueur
+    private final int O_UP = 0;
+    private final int O_RIGHT = 1;
+    private final int O_DOWN = 2;
+    private final int O_LEFT = 3;
 
     private Inventaire inventaire;
 
@@ -29,30 +36,56 @@ public class Heros {
         x = _x;
         y = _y;
         inventaire = new Inventaire();
+        orientation = O_DOWN; //Le joueur commence en regardant vers le bas
     }
 
-    public void droite() {
+    private void droite() {
         if (traversable(x+1, y)) {
             x ++;
         }
     }
 
-    public void gauche() {
+    private void gauche() {
         if (traversable(x-1, y)) {
             x --;
         }
     }
 
-    public void bas() {
+    private void bas() {
         if (traversable(x, y+1)) {
             y ++;
         }
     }
 
-    public void haut() {
+    private void haut() {
         if (traversable(x, y-1)) {
             y --;
         }
+    }
+
+    public void changer_direction(int newDir) {
+        //On veut pouvoir s'orienter sans forcément avancer d'une case
+        if(orientation == newDir)
+        {
+            switch (orientation) {
+                case O_UP:
+                    haut();
+                    break;
+                case O_RIGHT:
+                    droite();
+                    break;
+                case O_DOWN:
+                    bas();
+                    break;
+                case O_LEFT:
+                    gauche();
+                    break;
+                default:
+                    orientation = O_DOWN;
+                    break;
+            }
+        }
+        orientation = newDir;
     }
 
     private boolean traversable(int x, int y) {
@@ -62,5 +95,13 @@ public class Heros {
         } else {
             return false;
         }
+    }
+
+    public void action() {
+        System.out.println(inventaire);
+    }
+
+    public int getOrientation() {
+        return orientation;
     }
 }
