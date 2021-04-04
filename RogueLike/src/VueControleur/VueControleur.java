@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
+import collectible.Clef;
+import collectible.Collectible;
 import modele.plateau.*;
 import modele.plateau.entiteStatique.*;
 
@@ -69,7 +71,8 @@ public class VueControleur extends JFrame implements Observer {
                     case KeyEvent.VK_RIGHT : jeu.getHeros().changer_direction(O_RIGHT);break;
                     case KeyEvent.VK_DOWN : jeu.getHeros().changer_direction(O_DOWN); break;
                     case KeyEvent.VK_UP : jeu.getHeros().changer_direction(O_UP); break;
-                    case KeyEvent.VK_SPACE : jeu.getHeros().action(); break;
+                    case KeyEvent.VK_I: jeu.getHeros().afficherInventaire(); break;
+                    case KeyEvent.VK_SPACE : jeu.action(); break;
                 }
             }
         });
@@ -131,7 +134,9 @@ public class VueControleur extends JFrame implements Observer {
 
         for (int x = 0; x < sizeX; x++) {
             for (int y = 0; y < sizeY; y++) {
-				EntiteStatique e = jeu.getEntite(x, y);
+				EntiteStatique e = jeu.getEntiteStatique(x, y);
+                Collectible c = jeu.getEntiteCollectible(x, y);
+
                 if (e instanceof Mur) {
                     tabJLabel[x][y].setIcon(icoMur);
                 } else if (e instanceof CaseVide) {
@@ -145,6 +150,10 @@ public class VueControleur extends JFrame implements Observer {
                 }
                 else if (e instanceof CaseNormale) {
                     tabJLabel[x][y].setIcon(icoCaseNormale);
+                }
+
+                if(c instanceof Clef) {
+                    tabJLabel[x][y].setIcon(icoClef);
                 }
             }
         }

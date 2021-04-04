@@ -23,4 +23,16 @@ public class Inventaire {
 
         return sb.toString();
     }
+
+    public void ajouter(Collectible entiteCollectible) {
+        inventaire.add(entiteCollectible);
+    }
+
+    public List<Collectible> getCollectibles() {
+        return inventaire;
+    }
+
+    public void supprimerCollectible(int id) {
+        inventaire.removeIf(c -> c.getId() == id);
+    }
 }

@@ -5,6 +5,8 @@
  */
 package modele.plateau;
 
+import collectible.*;
+
 /**
  * Héros du jeu
  */
@@ -91,17 +93,39 @@ public class Heros {
     private boolean traversable(int x, int y) {
 
         if (x >0 && x < jeu.SIZE_X && y > 0 && y < jeu.SIZE_Y) {
-            return jeu.getEntite(x, y).traversable();
+            return jeu.getEntiteStatique(x, y).traversable();
         } else {
             return false;
         }
     }
 
     public void action() {
-        System.out.println(inventaire);
+
     }
 
     public int getOrientation() {
         return orientation;
+    }
+
+    public void ajoutInventaire(Collectible entiteCollectible) {
+        inventaire.ajouter(entiteCollectible);
+    }
+
+    public void afficherInventaire() {
+        System.out.println(inventaire);
+    }
+
+    public boolean possedeClef(int id) {
+        for (Collectible c : inventaire.getCollectibles()) {
+            if(c instanceof Clef)
+                if(c.getId() == id)
+                    return true;
+        }
+
+        return false;
+    }
+
+    public void supprimerItem(int id) {
+        inventaire.supprimerCollectible(id);
     }
 }

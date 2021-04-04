@@ -5,7 +5,9 @@
  */
 package modele.plateau;
 
+import collectible.Clef;
 import collectible.Coffre;
+import collectible.Collectible;
 import modele.plateau.entiteStatique.*;
 
 import java.util.Observable;
@@ -16,11 +18,18 @@ public class Jeu extends Observable implements Runnable {
     public static final int SIZE_X = 18;
     public static final int SIZE_Y = 16;
 
+    //Constantes pour l'orientation du joueur
+    private final int O_UP = 0;
+    private final int O_RIGHT = 1;
+    private final int O_DOWN = 2;
+    private final int O_LEFT = 3;
+
     private int pause = 200; // période de rafraichissement
 
     private Heros heros;
 
     private EntiteStatique[][] grilleEntitesStatiques = new EntiteStatique[SIZE_X][SIZE_Y];
+    private Collectible[][] grilleEntitesCollectibles = new Collectible[SIZE_X][SIZE_Y];
 
     public Jeu() {
         heros = new Heros(this, 1, 1);
@@ -36,11 +45,11 @@ public class Jeu extends Observable implements Runnable {
         return heros;
     }
 
-    public EntiteStatique[][] getGrille() {
+    public EntiteStatique[][] getGrilleEntitesStatiques() {
         return grilleEntitesStatiques;
     }
 
-	public EntiteStatique getEntite(int x, int y) {
+	public EntiteStatique getEntiteStatique(int x, int y) {
 		if (x < 0 || x >= SIZE_X || y < 0 || y >= SIZE_Y) {
 			// L'entité demandée est en-dehors de la grille
 			return null;
@@ -48,10 +57,24 @@ public class Jeu extends Observable implements Runnable {
 		return grilleEntitesStatiques[x][y];
 	}
 
+    public Collectible[][] getGrilleEntitesCollectibles() {
+        return grilleEntitesCollectibles;
+    }
+
+    public boolean CollectibleExiste(int x, int y) {
+        return grilleEntitesCollectibles[x][y] != null;
+    }
+
+    public Collectible getEntiteCollectible(int x, int y) {
+        if (x < 0 || x >= SIZE_X || y < 0 || y >= SIZE_Y) {
+            // L'entité demandée est en-dehors de la grille
+            return null;
+        }
+        return grilleEntitesCollectibles[x][y];
+    }
+
     private void initialisationDesEntites() {
         heros = new Heros(this, 4, 4);
-
-
 
         // murs extérieurs horizontaux
         for (int x = 0; x < 20; x++) {
@@ -89,6 +112,8 @@ public class Jeu extends Observable implements Runnable {
 
             }
         }
+        addEntiteCollectible(new Clef(0), 1, 1);
+
     }
     private void morceauDeNiveau0(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
@@ -171,4 +196,46 @@ public class Jeu extends Observable implements Runnable {
 
     }
 
+    private void addEntiteCollectible(Collectible e, int x, int y) {
+        grilleEntitesCollectibles[x][y] = e;
+
+    }
+
+    /*
+     * Différentes actions du joueur selon ce qu'il se trouve devant lui
+     */
+    public void action() {
+        int x = getHeros().getX(), y = getHeros().getY();
+
+        switch (getHeros().getOrientation()) {
+            case O_UP: y--; break;
+            case O_RIGHT: x++; break;
+            case O_DOWN: y++; break;
+            case O_LEFT: x--; break;
+            default: break;
+        }
+
+        //Ramasser un collectible
+        if(CollectibleExiste(x, y)) {
+            System.out.println("Vous ramassez : " + getEntiteCollectible(x, y).getName());
+            getHeros().ajoutInventaire(getEntiteCollectible(x, y));
+            supprimerEntiteCollectible(x, y);
+        }
+
+        //Porte
+        EntiteStatique e = getEntiteStatique(x, y);
+        if(e instanceof Porte) {
+            int idPorte = ((Porte) e).getIdPorte();
+            if(getHeros().possedeClef(idPorte)) {
+                getHeros().supprimerItem(idPorte);
+                grilleEntitesStatiques[x][y] = new CaseNormale(this);
+            }
+        }
+    }
+
+    private void supprimerEntiteCollectible(int x, int y) {
+        if(CollectibleExiste(x, y)) {
+            grilleEntitesCollectibles[x][y] = null;
+        }
+    }
 }

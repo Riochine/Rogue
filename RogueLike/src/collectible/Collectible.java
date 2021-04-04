@@ -1,8 +1,8 @@
 package collectible;
 
 public abstract class Collectible {
-    public String name;
-    private int id;
+    protected String name;
+    protected int id;
     protected int idAffichage;
 
     public Collectible(int _id, String _name){
@@ -10,7 +10,7 @@ public abstract class Collectible {
         id = _id;
         name = _name;
     }
-    public void rammaserCollectible() {
+    public void ramasserCollectible() {
 
     }
 
@@ -19,4 +19,8 @@ public abstract class Collectible {
     }
 
     public  abstract void utiliserCollectible();
+
+    public int getId() {
+        return id;
+    }
 }
