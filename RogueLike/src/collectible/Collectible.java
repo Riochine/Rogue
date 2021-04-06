@@ -3,22 +3,18 @@ package collectible;
 public abstract class Collectible {
     protected String name;
     protected int id;
-    protected int idAffichage;
-
-    public Collectible(int _id, String _name){
-        idAffichage = 0;
-        id = _id;
+    public Collectible(String _name){
         name = _name;
+        id = -1;
     }
-    public void ramasserCollectible() {
-
+    public Collectible(int _id, String _name){
+        name = _name;
+        id = _id;
     }
 
     public String getName() {
         return name;
     }
-
-    public  abstract void utiliserCollectible();
 
     public int getId() {
         return id;

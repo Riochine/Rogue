@@ -31,6 +31,15 @@ public class Inventaire {
     public List<Collectible> getCollectibles() {
         return inventaire;
     }
+    public Collectible[] getCollectiblesTab() {
+        Collectible inventaireTab[] = new Collectible[inventaire.size()];
+        int i = 0;
+        for(Collectible cl : inventaire){
+            inventaireTab[i] = cl;
+            i++;
+        }
+        return inventaireTab;
+    }
 
     public void supprimerCollectible(int id) {
         inventaire.removeIf(c -> c.getId() == id);

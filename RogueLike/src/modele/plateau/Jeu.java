@@ -6,6 +6,7 @@
 package modele.plateau;
 
 import collectible.Clef;
+import collectible.Capsule;
 import collectible.Coffre;
 import collectible.Collectible;
 import modele.plateau.entiteStatique.*;
@@ -112,7 +113,6 @@ public class Jeu extends Observable implements Runnable {
 
             }
         }
-        addEntiteCollectible(new Clef(0), 1, 1);
 
     }
     private void morceauDeNiveau0(int offsetX, int offsetY){
@@ -121,11 +121,14 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new Porte(this,0), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
+        addEntiteCollectible(new Clef(0), 1, 1);
+        addEntiteCollectible(new Capsule(), 3, 3);
+        addEntiteCollectible(new Coffre(), 2, 3);
     }
     private void morceauDeNiveau1(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
 
-        addEntiteStatique(new Porte(this,1), 0 + offsetX, 2 + offsetY);
+        addEntiteStatique(new Porte(this,0), 0 + offsetX, 2 + offsetY);
         addEntiteStatique(new Porte(this,2), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new Porte(this,3), 2 + offsetX, 4 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);

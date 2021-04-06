@@ -1,6 +1,6 @@
 package VueControleur;
 
-import java.awt.GridLayout;
+import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
@@ -14,7 +14,9 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 
 
+import collectible.Capsule;
 import collectible.Clef;
+import collectible.Coffre;
 import collectible.Collectible;
 import modele.plateau.*;
 import modele.plateau.entiteStatique.*;
@@ -49,7 +51,8 @@ public class VueControleur extends JFrame implements Observer {
     private ImageIcon icoClef;
     private ImageIcon icoColonne;
 
-    private JLabel[][] tabJLabel; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
+    private JLabel[][] tabJLabelgame; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
+    private JLabel[] tabJLabelinventaire; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
 
     public VueControleur(Jeu _jeu) {
@@ -112,18 +115,28 @@ public class VueControleur extends JFrame implements Observer {
         setSize(400, 250);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
-        JComponent grilleJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
+        JPanel masterPanel = new JPanel(new BorderLayout());
+        JComponent gameJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
+        JComponent inventaireJLabels = new JPanel(new GridLayout(sizeY, 1)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
 
-        tabJLabel = new JLabel[sizeX][sizeY];
+        masterPanel.add(gameJLabels,BorderLayout.CENTER);
+        masterPanel.add(inventaireJLabels,BorderLayout.EAST);
+        tabJLabelgame = new JLabel[sizeX][sizeY];
+        tabJLabelinventaire = new JLabel[sizeY];
 
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 JLabel jlab = new JLabel();
-                tabJLabel[x][y] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
-                grilleJLabels.add(jlab);
+                tabJLabelgame[x][y] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
+                gameJLabels.add(jlab);
             }
         }
-        add(grilleJLabels);
+        for (int y = 0 ; y < sizeY ; y++){
+                JLabel jlab = new JLabel();
+                tabJLabelinventaire[y] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
+                inventaireJLabels.add(jlab);
+        }
+        add(masterPanel);
     }
 
     
@@ -138,29 +151,52 @@ public class VueControleur extends JFrame implements Observer {
                 Collectible c = jeu.getEntiteCollectible(x, y);
 
                 if (e instanceof Mur) {
-                    tabJLabel[x][y].setIcon(icoMur);
+                    tabJLabelgame[x][y].setIcon(icoMur);
                 } else if (e instanceof CaseVide) {
-                    tabJLabel[x][y].setIcon(icoVide);
+                    tabJLabelgame[x][y].setIcon(icoVide);
                 }
                 else if (e instanceof Porte) {
-                    tabJLabel[x][y].setIcon(icoPorte);
+                    tabJLabelgame[x][y].setIcon(icoPorte);
                 }
                 else if (e instanceof CaseFeu) {
-                    tabJLabel[x][y].setIcon(icoFeu);
+                    tabJLabelgame[x][y].setIcon(icoFeu);
                 }
                 else if (e instanceof CaseNormale) {
-                    tabJLabel[x][y].setIcon(icoCaseNormale);
+                    tabJLabelgame[x][y].setIcon(icoCaseNormale);
                 }
 
                 if(c instanceof Clef) {
-                    tabJLabel[x][y].setIcon(icoClef);
+                    tabJLabelgame[x][y].setIcon(icoClef);
+                } else if(c instanceof Capsule) {
+                    tabJLabelgame[x][y].setIcon(icoCapsule);
+
+                }else if(c instanceof Coffre) {
+                    tabJLabelgame[x][y].setIcon(icoCoffre);
+
                 }
             }
+        }
+        for(int y = 0 ; y < sizeY ; y++){
+            if(y < jeu.getHeros().getInventaire().getCollectiblesTab().length){
+                Collectible ic = jeu.getHeros().getInventaire().getCollectiblesTab()[y];
+                if(ic instanceof Clef) {
+                    tabJLabelinventaire[y].setIcon(icoClef);
+                } else if(ic instanceof Capsule) {
+                    tabJLabelinventaire[y].setIcon(icoCapsule);
+
+                }else if(ic instanceof Coffre) {
+                    tabJLabelinventaire[y].setIcon(icoCoffre);
+
+                }
+            }else{
+                tabJLabelinventaire[y].setIcon(icoCaseNormale);
+            }
+
         }
 
 
 
-        tabJLabel[jeu.getHeros().getX()][jeu.getHeros().getY()].setIcon(icoHero[jeu.getHeros().getOrientation()]);
+        tabJLabelgame[jeu.getHeros().getX()][jeu.getHeros().getY()].setIcon(icoHero[jeu.getHeros().getOrientation()]);
 
     }
 

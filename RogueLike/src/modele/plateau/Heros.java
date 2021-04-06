@@ -41,6 +41,10 @@ public class Heros {
         orientation = O_DOWN; //Le joueur commence en regardant vers le bas
     }
 
+    public Inventaire getInventaire() {
+        return inventaire;
+    }
+
     private void droite() {
         if (traversable(x+1, y)) {
             x ++;

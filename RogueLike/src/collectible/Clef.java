@@ -1,12 +1,8 @@
 package collectible;
 
 public class Clef extends Collectible{
-     public Clef(int _id){
-         super(_id, "Clef");
+     public Clef(int _id) {
+         super("Clef");
+         id = _id;
      }
-
-    @Override
-    public void utiliserCollectible() {
-
-    }
 }
