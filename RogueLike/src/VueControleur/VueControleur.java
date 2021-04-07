@@ -50,6 +50,7 @@ public class VueControleur extends JFrame implements Observer {
     private ImageIcon icoCapsule;
     private ImageIcon icoClef;
     private ImageIcon icoColonne;
+    private ImageIcon icoUnique;
 
     private JLabel[][] tabJLabelgame; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
     private JLabel[] tabJLabelinventaire; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
@@ -95,6 +96,7 @@ public class VueControleur extends JFrame implements Observer {
         icoCoffre = chargerIcone("Images/Coffre.png");
         icoCapsule= chargerIcone("Images/Capsule.png");
         icoClef = chargerIcone("Images/Clef.png");
+        icoUnique = icoCaseNormale;
     }
 
     private ImageIcon chargerIcone(String urlIcone) {
@@ -163,6 +165,9 @@ public class VueControleur extends JFrame implements Observer {
                 }
                 else if (e instanceof CaseNormale) {
                     tabJLabelgame[x][y].setIcon(icoCaseNormale);
+                }
+                else if (e instanceof CaseUnique) {
+                    tabJLabelgame[x][y].setIcon(icoUnique);
                 }
 
                 if(c instanceof Clef) {

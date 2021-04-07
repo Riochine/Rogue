@@ -114,7 +114,7 @@ public class Jeu extends Observable implements Runnable {
             coords[1] = debY + 1 + (int)(Math.random() * 3);
             EntiteStatique e = getEntiteStatique(coords[0], coords[1]);
             found = ((e instanceof CaseNormale || e instanceof CaseUnique)
-                    || getEntiteCollectible(coords[0], coords[1]) == null);
+                    && getEntiteCollectible(coords[0], coords[1]) == null);
         }
 
         return coords;
@@ -137,7 +137,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new Porte(this,0), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
-        addEntiteStatique(new CaseUnique(this, 1), 3 + offsetX, 1 + offsetY);
+        addEntiteStatique(new CaseUnique(this, 0), 3 + offsetX, 1 + offsetY);
 
         int[] tmp = CoordsCaseNormale(0, 0);
         addEntiteCollectible(new Clef(0), tmp[0], tmp[1]);
