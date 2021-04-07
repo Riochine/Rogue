@@ -232,6 +232,18 @@ public class Jeu extends Observable implements Runnable {
             if(getHeros().possedeClef(idPorte)) {
                 getHeros().supprimerItem(idPorte);
                 grilleEntitesStatiques[x][y] = new CaseNormale(this);
+
+                switch (getHeros().getOrientation()) {
+                    case O_UP: y--; break;
+                    case O_RIGHT: x++; break;
+                    case O_DOWN: y++; break;
+                    case O_LEFT: x--; break;
+                    default: break;
+                }
+
+                e = getEntiteStatique(x, y);
+                if(idPorte == ((Porte) e).getIdPorte())
+                    grilleEntitesStatiques[x][y] = new CaseNormale(this);
             }
         }
     }
