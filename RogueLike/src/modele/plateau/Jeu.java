@@ -12,6 +12,7 @@ import collectible.Collectible;
 import modele.plateau.entiteStatique.*;
 
 import java.util.Observable;
+import java.util.Random;
 
 
 public class Jeu extends Observable implements Runnable {
@@ -34,12 +35,12 @@ public class Jeu extends Observable implements Runnable {
 
     public Jeu() {
         heros = new Heros(this, 1, 1);
+        morceauDeNiveauStandard();
         morceauDeNiveau0(0,0);
         morceauDeNiveau1(5,0);
         morceauDeNiveau2(6,5);
         morceauDeNiveau3(11,5);
         morceauDeNiveau4(12,10);
-        morceauDeNiveauStandard();
     }
 
     public Heros getHeros() {
@@ -104,6 +105,20 @@ public class Jeu extends Observable implements Runnable {
 
     }
 
+    private int[] CoordsCaseNormale(int debX, int debY) {
+        int[] coords = new int[2];
+        boolean found = false;
+
+        while(!found) {
+            coords[0] = debX + 1 + (int)(Math.random() * 3);
+            coords[1] = debY + 1 + (int)(Math.random() * 3);
+            found = (getEntiteStatique(coords[0], coords[1]) instanceof CaseNormale
+                    || getEntiteCollectible(coords[0], coords[1]) == null);
+        }
+
+        return coords;
+    }
+
     private void morceauDeNiveauStandard(){
         for (int x = 0; x < SIZE_X; x++) {
             for (int y = 0; y < SIZE_Y; y++) {
@@ -121,9 +136,14 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new Porte(this,0), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
-        addEntiteCollectible(new Clef(0), 1, 1);
-        addEntiteCollectible(new Capsule(), 3, 3);
-        addEntiteCollectible(new Coffre(), 2, 3);
+
+
+        int[] tmp = CoordsCaseNormale(0, 0);
+        addEntiteCollectible(new Clef(0), tmp[0], tmp[1]);
+        tmp = CoordsCaseNormale(0, 0);
+        addEntiteCollectible(new Capsule(), tmp[0], tmp[1]);
+        tmp = CoordsCaseNormale(0, 0);
+        addEntiteCollectible(new Coffre(), tmp[0], tmp[1]);
     }
     private void morceauDeNiveau1(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
@@ -133,6 +153,13 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new Porte(this,3), 2 + offsetX, 4 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
+
+        int[] tmp = CoordsCaseNormale(offsetX, offsetY);
+        addEntiteCollectible(new Clef(2), tmp[0], tmp[1]);
+        tmp = CoordsCaseNormale(offsetX, offsetY);
+        addEntiteCollectible(new Capsule(), tmp[0], tmp[1]);
+        tmp = CoordsCaseNormale(offsetX, offsetY);
+        addEntiteCollectible(new Clef(3), tmp[0], tmp[1]);
     }
     private void morceauDeNiveau2(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
@@ -242,8 +269,9 @@ public class Jeu extends Observable implements Runnable {
                 }
 
                 e = getEntiteStatique(x, y);
-                if(idPorte == ((Porte) e).getIdPorte())
-                    grilleEntitesStatiques[x][y] = new CaseNormale(this);
+                if(e instanceof Porte)
+                    if(idPorte == ((Porte) e).getIdPorte())
+                        grilleEntitesStatiques[x][y] = new CaseNormale(this);
             }
         }
         else if (e instanceof CaseFeu) {
