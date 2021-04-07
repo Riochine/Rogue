@@ -163,7 +163,7 @@ public class Heros {
 
     public void action() {
         int x = getX(), y = getY();
-        
+
         switch (getOrientation()) {
             case O_UP: y--; break;
             case O_RIGHT: x++; break;
@@ -205,6 +205,22 @@ public class Heros {
             if(possedeCapsule()) {
                 jeu.setEntiteStatique(x, y, new CaseNormale(jeu));
                 supprimerCapsule();
+            }
+        }
+        else if (e instanceof CaseVide) {
+            switch (getOrientation()) {
+                case O_UP: y--; break;
+                case O_RIGHT: x++; break;
+                case O_DOWN: y++; break;
+                case O_LEFT: x--; break;
+                default: break;
+            }
+
+            e = jeu.getEntiteStatique(x, y);
+            if(e instanceof CaseNormale || e instanceof CaseUnique)
+            {
+                this.x = x;
+                this.y = y;
             }
         }
     }

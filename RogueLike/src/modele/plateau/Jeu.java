@@ -135,7 +135,7 @@ public class Jeu extends Observable implements Runnable {
         morceauDeNiveauMur(offsetX,offsetY);
 
         addEntiteStatique(new Porte(this,0), 4 + offsetX, 2 + offsetY);
-        addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
+        addEntiteStatique(new CaseVide(this), 2 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseUnique(this, 0), 3 + offsetX, 1 + offsetY);
 
