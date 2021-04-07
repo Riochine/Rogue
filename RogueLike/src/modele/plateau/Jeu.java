@@ -232,60 +232,13 @@ public class Jeu extends Observable implements Runnable {
 
     }
 
-    /*
-     * Différentes actions du joueur selon ce qu'il se trouve devant lui
-     */
-    public void action() {
-        int x = getHeros().getX(), y = getHeros().getY();
-
-        switch (getHeros().getOrientation()) {
-            case O_UP: y--; break;
-            case O_RIGHT: x++; break;
-            case O_DOWN: y++; break;
-            case O_LEFT: x--; break;
-            default: break;
-        }
-
-        //Ramasser un collectible
-        if(CollectibleExiste(x, y)) {
-            System.out.println("Vous ramassez : " + getEntiteCollectible(x, y).getName());
-            getHeros().ajoutInventaire(getEntiteCollectible(x, y));
-            supprimerEntiteCollectible(x, y);
-        }
-
-        //Porte
-        EntiteStatique e = getEntiteStatique(x, y);
-        if(e instanceof Porte) {
-            int idPorte = ((Porte) e).getIdPorte();
-            if(getHeros().possedeClef(idPorte)) {
-                getHeros().supprimerClef(idPorte);
-                grilleEntitesStatiques[x][y] = new CaseNormale(this);
-
-                switch (getHeros().getOrientation()) {
-                    case O_UP: y--; break;
-                    case O_RIGHT: x++; break;
-                    case O_DOWN: y++; break;
-                    case O_LEFT: x--; break;
-                    default: break;
-                }
-
-                e = getEntiteStatique(x, y);
-                if(e instanceof Porte)
-                    if(idPorte == ((Porte) e).getIdPorte())
-                        grilleEntitesStatiques[x][y] = new CaseNormale(this);
-            }
-        }
-        else if (e instanceof CaseFeu) {
-            if(getHeros().possedeCapsule()) {
-                grilleEntitesStatiques[x][y] = new CaseNormale(this);
-                getHeros().supprimerCapsule();
-            }
-        }
-    }
-
-    private void supprimerEntiteCollectible(int x, int y) {
+    public void supprimerEntiteCollectible(int x, int y) {
         if(CollectibleExiste(x, y)) {
             grilleEntitesCollectibles[x][y] = null;
         }
+    }
+
+    public void setEntiteStatique(int x, int y, CaseNormale entite) {
+        grilleEntitesStatiques[x][y] = entite;
     }
 }

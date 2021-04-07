@@ -76,7 +76,7 @@ public class VueControleur extends JFrame implements Observer {
                     case KeyEvent.VK_DOWN : jeu.getHeros().changer_direction(O_DOWN); break;
                     case KeyEvent.VK_UP : jeu.getHeros().changer_direction(O_UP); break;
                     case KeyEvent.VK_I: jeu.getHeros().afficherInventaire(); break;
-                    case KeyEvent.VK_SPACE : jeu.action(); break;
+                    case KeyEvent.VK_SPACE : jeu.getHeros().action(); break;
                 }
             }
         });
