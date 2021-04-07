@@ -137,7 +137,6 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
-
         int[] tmp = CoordsCaseNormale(0, 0);
         addEntiteCollectible(new Clef(0), tmp[0], tmp[1]);
         tmp = CoordsCaseNormale(0, 0);
