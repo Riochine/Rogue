@@ -1,5 +1,6 @@
 package modele.plateau;
 
+import collectible.Capsule;
 import collectible.Collectible;
 
 import java.util.ArrayList;
@@ -41,7 +42,11 @@ public class Inventaire {
         return inventaireTab;
     }
 
-    public void supprimerCollectible(int id) {
+    public void supprimerClef(int id) {
         inventaire.removeIf(c -> c.getId() == id);
+    }
+
+    public void supprimerCapsule() {
+        inventaire.removeIf(cl -> cl instanceof Capsule);
     }
 }

@@ -129,7 +129,19 @@ public class Heros {
         return false;
     }
 
-    public void supprimerItem(int id) {
-        inventaire.supprimerCollectible(id);
+    public void supprimerClef(int id) {
+        inventaire.supprimerClef(id);
+    }
+
+    public boolean possedeCapsule() {
+        for (Collectible c : inventaire.getCollectibles())
+            if(c instanceof Capsule)
+                    return true;
+
+        return false;
+    }
+
+    public void supprimerCapsule() {
+        inventaire.supprimerCapsule();
     }
 }

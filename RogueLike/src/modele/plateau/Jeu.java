@@ -230,7 +230,7 @@ public class Jeu extends Observable implements Runnable {
         if(e instanceof Porte) {
             int idPorte = ((Porte) e).getIdPorte();
             if(getHeros().possedeClef(idPorte)) {
-                getHeros().supprimerItem(idPorte);
+                getHeros().supprimerClef(idPorte);
                 grilleEntitesStatiques[x][y] = new CaseNormale(this);
 
                 switch (getHeros().getOrientation()) {
@@ -244,6 +244,12 @@ public class Jeu extends Observable implements Runnable {
                 e = getEntiteStatique(x, y);
                 if(idPorte == ((Porte) e).getIdPorte())
                     grilleEntitesStatiques[x][y] = new CaseNormale(this);
+            }
+        }
+        else if (e instanceof CaseFeu) {
+            if(getHeros().possedeCapsule()) {
+                grilleEntitesStatiques[x][y] = new CaseNormale(this);
+                getHeros().supprimerCapsule();
             }
         }
     }
