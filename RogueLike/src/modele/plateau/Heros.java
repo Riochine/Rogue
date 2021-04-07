@@ -6,6 +6,9 @@
 package modele.plateau;
 
 import collectible.*;
+import modele.plateau.entiteStatique.*;
+
+import javax.swing.text.html.parser.Entity;
 
 /**
  * Héros du jeu
@@ -41,6 +44,20 @@ public class Heros {
         orientation = O_DOWN; //Le joueur commence en regardant vers le bas
     }
 
+    //action
+
+    //interagation case
+    public void caseType(int x,int y){
+        EntiteStatique ets;
+        ets = jeu.getEntiteStatique(x,y);
+        if (ets instanceof CaseUnique && !((CaseUnique) ets).incrementPassage()){
+            jeu.getGrilleEntitesStatiques()[x][y] = new CaseFeu(jeu);
+        }
+
+
+    }
+
+
     public Inventaire getInventaire() {
         return inventaire;
     }
@@ -73,6 +90,7 @@ public class Heros {
         //On veut pouvoir s'orienter sans forcément avancer d'une case
         if(orientation == newDir)
         {
+            caseType(x,y);
             switch (orientation) {
                 case O_UP:
                     haut();

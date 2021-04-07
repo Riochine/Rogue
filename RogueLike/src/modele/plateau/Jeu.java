@@ -121,6 +121,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new Porte(this,0), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
+        addEntiteStatique(new CaseUnique(this,1), 3 + offsetX, 1 + offsetY);
         addEntiteCollectible(new Clef(0), 1, 1);
         addEntiteCollectible(new Capsule(), 3, 3);
         addEntiteCollectible(new Coffre(), 2, 3);
