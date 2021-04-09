@@ -174,9 +174,19 @@ public class Heros {
 
         //Ramasser un collectible
         if(jeu.CollectibleExiste(x, y)) {
-            System.out.println("Vous ramassez : " + jeu.getEntiteCollectible(x, y).getName());
-            ajoutInventaire(jeu.getEntiteCollectible(x, y));
-            jeu.supprimerEntiteCollectible(x, y);
+            Collectible col = jeu.getEntiteCollectible(x,y);
+            if(col instanceof Coffre){  //si coffre, on prend l'interieur
+                for(Collectible tmp:((Coffre) col).getTabColl()){
+                    System.out.println("Vous ramassez : " + tmp.getName());
+                    ajoutInventaire(tmp);
+                }
+                jeu.supprimerEntiteCollectible(x, y);
+            }
+            else{   //sinon on prend directement l'objet et on supprime son affichage
+                System.out.println("Vous ramassez : " + jeu.getEntiteCollectible(x, y).getName());
+                ajoutInventaire(jeu.getEntiteCollectible(x, y));
+                jeu.supprimerEntiteCollectible(x, y);
+            }
         }
 
         //Porte
@@ -222,23 +232,6 @@ public class Heros {
                 this.x = x;
                 this.y = y;
             }
-        }
-
-        if(jeu.CollectibleExiste(x, y)) {
-            Collectible col = jeu.getEntiteCollectible(x,y);
-            if(col instanceof Coffre){  //si coffre, on prend l'interieur
-                for(Collectible tmp:((Coffre) col).getTabColl()){
-                    System.out.println("Vous ramassez : " + tmp.getName());
-                    ajoutInventaire(tmp);
-                }
-                jeu.supprimerEntiteCollectible(x, y);
-            }
-            else{   //sinon on prend directement l'objet et on supprime son affichage
-                System.out.println("Vous ramassez : " + jeu.getEntiteCollectible(x, y).getName());
-                ajoutInventaire(jeu.getEntiteCollectible(x, y));
-                jeu.supprimerEntiteCollectible(x, y);
-            }
-
         }
     }
 }
