@@ -147,7 +147,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseUnique(this, 0), 3 + offsetX, 1 + offsetY);
 
-        Collectible [] tabcol = {new Clef(0),new Capsule(),new Coffre()};
+        Collectible [] tabcol = {new Clef(0),new Capsule(),new Coffre(new Collectible[]{new Capsule(),new Capsule()})};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau1(int offsetX, int offsetY){
@@ -258,9 +258,20 @@ public class Jeu extends Observable implements Runnable {
 
         //Ramasser un collectible
         if(CollectibleExiste(x, y)) {
-            System.out.println("Vous ramassez : " + getEntiteCollectible(x, y).getName());
-            getHeros().ajoutInventaire(getEntiteCollectible(x, y));
-            supprimerEntiteCollectible(x, y);
+            Collectible col = getEntiteCollectible(x,y);
+            if(col instanceof Coffre){  //si coffre, on prend l'interieur
+                for(Collectible tmp:((Coffre) col).getTabColl()){
+                    System.out.println("Vous ramassez : " + tmp.getName());
+                    getHeros().ajoutInventaire(tmp);
+                }
+                supprimerEntiteCollectible(x, y);
+            }
+            else{   //sinon on prend directement l'objet et on supprime son affichage
+                System.out.println("Vous ramassez : " + getEntiteCollectible(x, y).getName());
+                getHeros().ajoutInventaire(getEntiteCollectible(x, y));
+                supprimerEntiteCollectible(x, y);
+            }
+
         }
 
         //Porte
