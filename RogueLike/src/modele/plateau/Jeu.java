@@ -105,6 +105,14 @@ public class Jeu extends Observable implements Runnable {
 
     }
 
+    private void tabRanCollectibleSurMap(Collectible [] tabcol, int debX, int debY){
+        int tmp[];
+        for (Collectible cl:tabcol){
+            tmp = CoordsCaseNormale(debX, debY);
+            addEntiteCollectible(cl ,tmp[0],tmp[1]);
+        }
+    }
+
     private int[] CoordsCaseNormale(int debX, int debY) {
         int[] coords = new int[2];
         boolean found = false;
@@ -139,12 +147,8 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseUnique(this, 0), 3 + offsetX, 1 + offsetY);
 
-        int[] tmp = CoordsCaseNormale(0, 0);
-        addEntiteCollectible(new Clef(0), tmp[0], tmp[1]);
-        tmp = CoordsCaseNormale(0, 0);
-        addEntiteCollectible(new Capsule(), tmp[0], tmp[1]);
-        tmp = CoordsCaseNormale(0, 0);
-        addEntiteCollectible(new Coffre(), tmp[0], tmp[1]);
+        Collectible [] tabcol = {new Clef(0),new Capsule(),new Coffre()};
+        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau1(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
@@ -155,38 +159,44 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
-        int[] tmp = CoordsCaseNormale(offsetX, offsetY);
-        addEntiteCollectible(new Clef(2), tmp[0], tmp[1]);
-        tmp = CoordsCaseNormale(offsetX, offsetY);
-        addEntiteCollectible(new Capsule(), tmp[0], tmp[1]);
-        tmp = CoordsCaseNormale(offsetX, offsetY);
-        addEntiteCollectible(new Clef(3), tmp[0], tmp[1]);
+        Collectible [] tabcol = {new Clef(2),new Clef(3),new Capsule()};
+        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau2(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
 
-        addEntiteStatique(new Porte(this,4), 1 + offsetX, 0 + offsetY);
+        addEntiteStatique(new Porte(this,3), 1 + offsetX, 0 + offsetY);
         addEntiteStatique(new Porte(this,5), 2 + offsetX, 4 + offsetY);
         addEntiteStatique(new Porte(this,6), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
+
+
+        Collectible [] tabcol = {new Clef(5),new Clef(6),new Capsule(),new Coffre()};
+        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau3(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
 
-        addEntiteStatique(new Porte(this,7), 0 + offsetX, 2 + offsetY);
+        addEntiteStatique(new Porte(this,6), 0 + offsetX, 2 + offsetY);
         addEntiteStatique(new Porte(this,8), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new Porte(this,9), 2 + offsetX, 4 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
+
+        Collectible [] tabcol = {new Clef(8),new Clef(9),new Capsule()};
+        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau4(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
 
-        addEntiteStatique(new Porte(this,10), 1 + offsetX, 0 + offsetY);
+        addEntiteStatique(new Porte(this,9), 1 + offsetX, 0 + offsetY);
         addEntiteStatique(new Porte(this,11), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
+
+        Collectible [] tabcol = {new Clef(11),new Coffre(),new Capsule()};
+        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveauMur(int offsetX, int offsetY){
         for (int x = offsetX; x < 5 + offsetX; x++) {
