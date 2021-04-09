@@ -57,7 +57,7 @@ public class VueControleur extends JFrame implements Observer {
 
 
     public VueControleur(Jeu _jeu) {
-        sizeX = jeu.SIZE_X;
+        sizeX = _jeu.SIZE_X;
         sizeY = _jeu.SIZE_Y;
         jeu = _jeu;
 
