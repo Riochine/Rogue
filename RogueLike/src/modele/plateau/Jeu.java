@@ -143,7 +143,7 @@ public class Jeu extends Observable implements Runnable {
         morceauDeNiveauMur(offsetX,offsetY);
 
         addEntiteStatique(new Porte(this,0), 4 + offsetX, 2 + offsetY);
-        addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
+        addEntiteStatique(new CaseVide(this), 2 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseUnique(this, 0), 3 + offsetX, 1 + offsetY);
 
@@ -242,21 +242,7 @@ public class Jeu extends Observable implements Runnable {
 
     }
 
-    /*
-     * Différentes actions du joueur selon ce qu'il se trouve devant lui
-     */
-    public void action() {
-        int x = getHeros().getX(), y = getHeros().getY();
-
-        switch (getHeros().getOrientation()) {
-            case O_UP: y--; break;
-            case O_RIGHT: x++; break;
-            case O_DOWN: y++; break;
-            case O_LEFT: x--; break;
-            default: break;
-        }
-
-        //Ramasser un collectible
+    public void supprimerEntiteCollectible(int x, int y) {
         if(CollectibleExiste(x, y)) {
             Collectible col = getEntiteCollectible(x,y);
             if(col instanceof Coffre){  //si coffre, on prend l'interieur
@@ -304,9 +290,7 @@ public class Jeu extends Observable implements Runnable {
         }
     }
 
-    private void supprimerEntiteCollectible(int x, int y) {
-        if(CollectibleExiste(x, y)) {
-            grilleEntitesCollectibles[x][y] = null;
-        }
+    public void setEntiteStatique(int x, int y, CaseNormale entite) {
+        grilleEntitesStatiques[x][y] = entite;
     }
 }

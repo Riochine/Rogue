@@ -53,8 +53,6 @@ public class Heros {
         if (ets instanceof CaseUnique && !((CaseUnique) ets).incrementPassage()){
             jeu.getGrilleEntitesStatiques()[x][y] = new CaseFeu(jeu);
         }
-
-
     }
 
 
@@ -121,10 +119,6 @@ public class Heros {
         }
     }
 
-    public void action() {
-
-    }
-
     public int getOrientation() {
         return orientation;
     }
@@ -161,5 +155,73 @@ public class Heros {
 
     public void supprimerCapsule() {
         inventaire.supprimerCapsule();
+    }
+
+    /*
+     * Différentes actions du joueur selon ce qu'il se trouve devant lui
+     */
+
+    public void action() {
+        int x = getX(), y = getY();
+
+        switch (getOrientation()) {
+            case O_UP: y--; break;
+            case O_RIGHT: x++; break;
+            case O_DOWN: y++; break;
+            case O_LEFT: x--; break;
+            default: break;
+        }
+
+        //Ramasser un collectible
+        if(jeu.CollectibleExiste(x, y)) {
+            System.out.println("Vous ramassez : " + jeu.getEntiteCollectible(x, y).getName());
+            ajoutInventaire(jeu.getEntiteCollectible(x, y));
+            jeu.supprimerEntiteCollectible(x, y);
+        }
+
+        //Porte
+        EntiteStatique e = jeu.getEntiteStatique(x, y);
+        if(e instanceof Porte) {
+            int idPorte = ((Porte) e).getIdPorte();
+            if(possedeClef(idPorte)) {
+                supprimerClef(idPorte);
+                jeu.setEntiteStatique(x, y, new CaseNormale(jeu));
+
+                switch (getOrientation()) {
+                    case O_UP: y--; break;
+                    case O_RIGHT: x++; break;
+                    case O_DOWN: y++; break;
+                    case O_LEFT: x--; break;
+                    default: break;
+                }
+
+                e = jeu.getEntiteStatique(x, y);
+                if(e instanceof Porte)
+                    if(idPorte == ((Porte) e).getIdPorte())
+                        jeu.setEntiteStatique(x, y, new CaseNormale(jeu));
+            }
+        }
+        else if (e instanceof CaseFeu) {
+            if(possedeCapsule()) {
+                jeu.setEntiteStatique(x, y, new CaseNormale(jeu));
+                supprimerCapsule();
+            }
+        }
+        else if (e instanceof CaseVide) {
+            switch (getOrientation()) {
+                case O_UP: y--; break;
+                case O_RIGHT: x++; break;
+                case O_DOWN: y++; break;
+                case O_LEFT: x--; break;
+                default: break;
+            }
+
+            e = jeu.getEntiteStatique(x, y);
+            if(e instanceof CaseNormale || e instanceof CaseUnique)
+            {
+                this.x = x;
+                this.y = y;
+            }
+        }
     }
 }
