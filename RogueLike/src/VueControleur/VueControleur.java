@@ -222,7 +222,7 @@ public class VueControleur extends JFrame implements Observer {
                 }
             }else{
                 if(y + 1 <  sizeY) {
-                    tabJLabelinventaire[y + 1].setIcon(icoCaseNormale);
+                    tabJLabelinventaire[y + 1].setIcon(null);
                     tabJLabelinventaire[y + 1].setText(null);
                 }
             }
