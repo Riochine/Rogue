@@ -214,6 +214,7 @@ public class VueControleur extends JFrame implements Observer {
                     tabJLabelinventaire[y_tmp].setForeground(Color.black);
                 } else if(ic instanceof Capsule) {
                     tabJLabelinventaire[y_tmp].setIcon(icoCapsule);
+                    tabJLabelinventaire[y_tmp].setText("Eau");
 
                 }else if(ic instanceof Coffre) {
                     tabJLabelinventaire[y_tmp].setIcon(icoCoffre);
