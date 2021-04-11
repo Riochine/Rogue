@@ -152,13 +152,24 @@ public class VueControleur extends JFrame implements Observer {
 				EntiteStatique e = jeu.getEntiteStatique(x, y);
                 Collectible c = jeu.getEntiteCollectible(x, y);
 
+                //e texte du JLabel n'est pas reset automatiquement
+                tabJLabelgame[x][y].setText("");
+
                 if (e instanceof Mur) {
                     tabJLabelgame[x][y].setIcon(icoMur);
                 } else if (e instanceof CaseVide) {
                     tabJLabelgame[x][y].setIcon(icoVide);
                 }
                 else if (e instanceof Porte) {
+                    /*
+                    On place l'icone de la porte;
+                    Puis on ajoute son identifiant au JLabel, au centre;
+                    On change la couleur pour plus de lisibilité.
+                     */
                     tabJLabelgame[x][y].setIcon(icoPorte);
+                    tabJLabelgame[x][y].setText(String.valueOf(((Porte) e).getIdPorte()));
+                    tabJLabelgame[x][y].setHorizontalTextPosition(JLabel.CENTER);
+                    tabJLabelgame[x][y].setForeground(Color.white);
                 }
                 else if (e instanceof CaseFeu) {
                     tabJLabelgame[x][y].setIcon(icoFeu);
@@ -172,6 +183,9 @@ public class VueControleur extends JFrame implements Observer {
 
                 if(c instanceof Clef) {
                     tabJLabelgame[x][y].setIcon(icoClef);
+                    tabJLabelgame[x][y].setText(String.valueOf(((Clef) c).getId()));
+                    tabJLabelgame[x][y].setHorizontalTextPosition(JLabel.CENTER);
+                    tabJLabelgame[x][y].setForeground(Color.black);
                 } else if(c instanceof Capsule) {
                     tabJLabelgame[x][y].setIcon(icoCapsule);
 
@@ -181,25 +195,40 @@ public class VueControleur extends JFrame implements Observer {
                 }
             }
         }
+
         for(int y = 0 ; y < sizeY ; y++){
+
             if(y < jeu.getHeros().getInventaire().getCollectiblesTab().length){
                 Collectible ic = jeu.getHeros().getInventaire().getCollectiblesTab()[y];
+
+                int y_tmp = y + 1;
+
+                //reset le text du JLabel
+                tabJLabelinventaire[y_tmp].setText(null);
+
                 if(ic instanceof Clef) {
-                    tabJLabelinventaire[y].setIcon(icoClef);
+                    tabJLabelinventaire[y_tmp].setIcon(icoClef);
+                    //tabJLabelinventaire[y].setHorizontalTextPosition(JLabel.CENTER);
+
+                    tabJLabelinventaire[y_tmp].setText("Porte n° " + String.valueOf(((Clef) ic).getId()));
+                    tabJLabelinventaire[y_tmp].setForeground(Color.black);
                 } else if(ic instanceof Capsule) {
-                    tabJLabelinventaire[y].setIcon(icoCapsule);
+                    tabJLabelinventaire[y_tmp].setIcon(icoCapsule);
 
                 }else if(ic instanceof Coffre) {
-                    tabJLabelinventaire[y].setIcon(icoCoffre);
+                    tabJLabelinventaire[y_tmp].setIcon(icoCoffre);
 
                 }
             }else{
-                tabJLabelinventaire[y].setIcon(icoCaseNormale);
+                if(y + 1 <  sizeY) {
+                    tabJLabelinventaire[y + 1].setIcon(icoCaseNormale);
+                    tabJLabelinventaire[y + 1].setText(null);
+                }
             }
 
         }
 
-
+        tabJLabelinventaire[0].setText("-- Inventaire --");
 
         tabJLabelgame[jeu.getHeros().getX()][jeu.getHeros().getY()].setIcon(icoHero[jeu.getHeros().getOrientation()]);
 
