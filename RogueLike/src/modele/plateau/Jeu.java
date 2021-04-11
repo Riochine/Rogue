@@ -121,8 +121,9 @@ public class Jeu extends Observable implements Runnable {
             coords[0] = debX + 1 + (int)(Math.random() * 3);
             coords[1] = debY + 1 + (int)(Math.random() * 3);
             EntiteStatique e = getEntiteStatique(coords[0], coords[1]);
-            found = ((e instanceof CaseNormale || e instanceof CaseUnique)
-                    && getEntiteCollectible(coords[0], coords[1]) == null);
+            Collectible c = getEntiteCollectible(coords[0], coords[1]);
+            found = ((e instanceof CaseNormale || e instanceof CaseUnique) &&
+                    (c == null || c instanceof Coffre));
         }
 
         return coords;
@@ -172,7 +173,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
 
-        Collectible [] tabcol = {new Clef(5),new Clef(6),new Capsule(),new Coffre()};
+        Collectible [] tabcol = {new Coffre(),new Clef(5),new Clef(6),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau3(int offsetX, int offsetY){
@@ -238,7 +239,8 @@ public class Jeu extends Observable implements Runnable {
     }
 
     private void addEntiteCollectible(Collectible e, int x, int y) {
-        grilleEntitesCollectibles[x][y] = e;
+        if(getEntiteCollectible(x,y) instanceof Coffre)((Coffre) getEntiteCollectible(x,y)).addCollToCoffre(e);
+        else grilleEntitesCollectibles[x][y] = e;
 
     }
 

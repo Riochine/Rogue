@@ -44,9 +44,6 @@ public class Heros {
         orientation = O_DOWN; //Le joueur commence en regardant vers le bas
     }
 
-    //action
-
-    //interagation case
     public void caseType(int x,int y){
         EntiteStatique ets;
         ets = jeu.getEntiteStatique(x,y);
@@ -175,7 +172,7 @@ public class Heros {
         //Ramasser un collectible
         if(jeu.CollectibleExiste(x, y)) {
             Collectible col = jeu.getEntiteCollectible(x,y);
-            if(col instanceof Coffre){  //si coffre, on prend l'interieur
+            if(col instanceof Coffre && ((Coffre) col).getTabColl() != null){  //si coffre, on prend l'interieur
                 for(Collectible tmp:((Coffre) col).getTabColl()){
                     System.out.println("Vous ramassez : " + tmp.getName());
                     ajoutInventaire(tmp);
