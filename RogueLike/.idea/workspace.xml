@@ -58,7 +58,9 @@
       <workItem from="1617971678084" duration="7254000" />
       <workItem from="1617998494970" duration="3397000" />
       <workItem from="1618129578980" duration="1161000" />
-      <workItem from="1618147302896" duration="2730000" />
+      <workItem from="1618147302896" duration="14561000" />
+      <workItem from="1618179368379" duration="8000" />
+      <workItem from="1618180187614" duration="5369000" />
     </task>
     <servers />
   </component>
@@ -89,6 +91,6 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/RogueLike$Unnamed.ic" NAME="Unnamed Coverage Results" MODIFIED="1617976015319" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/RogueLike$Main.ic" NAME="Main Coverage Results" MODIFIED="1617976092533" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/RogueLike$Main.ic" NAME="Main Coverage Results" MODIFIED="1618158172995" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
   </component>
 </project>

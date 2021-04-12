@@ -57,8 +57,8 @@ public class VueControleur extends JFrame implements Observer {
 
 
     public VueControleur(Jeu _jeu) {
-        sizeX = _jeu.SIZE_X;
-        sizeY = _jeu.SIZE_Y;
+        sizeX = _jeu.TAILLE_SALLE;
+        sizeY = _jeu.TAILLE_SALLE;
         jeu = _jeu;
 
         chargerLesIcones();
@@ -126,6 +126,7 @@ public class VueControleur extends JFrame implements Observer {
         tabJLabelgame = new JLabel[sizeX][sizeY];
         tabJLabelinventaire = new JLabel[sizeY];
 
+        //pré construction de la fenetre de jeu
         for (int y = 0; y < sizeY; y++) {
             for (int x = 0; x < sizeX; x++) {
                 JLabel jlab = new JLabel();
@@ -133,6 +134,7 @@ public class VueControleur extends JFrame implements Observer {
                 gameJLabels.add(jlab);
             }
         }
+        //pré construction de la fenetre d'inventaire
         for (int y = 0 ; y < sizeY ; y++){
                 JLabel jlab = new JLabel();
                 tabJLabelinventaire[y] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
@@ -146,19 +148,25 @@ public class VueControleur extends JFrame implements Observer {
      * Il y a une grille du côté du modèle ( jeu.getGrille() ) et une grille du côté de la vue (tabJLabel)
      */
     private void mettreAJourAffichage() {
+        int tabNewCoord [][] = jeu.nouvelleSalle();
+        int minX = tabNewCoord[0][0];
+        int maxX = tabNewCoord[0][1];
+        int minY = tabNewCoord[1][0];
+        int maxY = tabNewCoord[1][1];
 
-        for (int x = 0; x < sizeX; x++) {
-            for (int y = 0; y < sizeY; y++) {
+        //Mise a jour du jeu
+        for (int x = minX; x < maxX; x++) {
+            for (int y = minY; y < maxY; y++) {
 				EntiteStatique e = jeu.getEntiteStatique(x, y);
                 Collectible c = jeu.getEntiteCollectible(x, y);
 
                 //e texte du JLabel n'est pas reset automatiquement
-                tabJLabelgame[x][y].setText("");
+                tabJLabelgame[x-minX][y-minY].setText("");
 
                 if (e instanceof Mur) {
-                    tabJLabelgame[x][y].setIcon(icoMur);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoMur);
                 } else if (e instanceof CaseVide) {
-                    tabJLabelgame[x][y].setIcon(icoVide);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoVide);
                 }
                 else if (e instanceof Porte) {
                     /*
@@ -166,37 +174,38 @@ public class VueControleur extends JFrame implements Observer {
                     Puis on ajoute son identifiant au JLabel, au centre;
                     On change la couleur pour plus de lisibilité.
                      */
-                    tabJLabelgame[x][y].setIcon(icoPorte);
-                    tabJLabelgame[x][y].setText(String.valueOf(((Porte) e).getIdPorte()));
-                    tabJLabelgame[x][y].setHorizontalTextPosition(JLabel.CENTER);
-                    tabJLabelgame[x][y].setForeground(Color.white);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoPorte);
+                    tabJLabelgame[x-minX][y-minY].setText(String.valueOf(((Porte) e).getIdPorte()));
+                    tabJLabelgame[x-minX][y-minY].setHorizontalTextPosition(JLabel.CENTER);
+                    tabJLabelgame[x-minX][y-minY].setForeground(Color.white);
                 }
                 else if (e instanceof CaseFeu) {
-                    tabJLabelgame[x][y].setIcon(icoFeu);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoFeu);
                 }
                 else if (e instanceof CaseNormale) {
-                    tabJLabelgame[x][y].setIcon(icoCaseNormale);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoCaseNormale);
                 }
                 else if (e instanceof CaseUnique) {
-                    tabJLabelgame[x][y].setIcon(icoUnique);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoUnique);
                 }
 
                 if(c instanceof Clef) {
-                    tabJLabelgame[x][y].setIcon(icoClef);
-                    tabJLabelgame[x][y].setText(String.valueOf(((Clef) c).getId()));
-                    tabJLabelgame[x][y].setHorizontalTextPosition(JLabel.CENTER);
-                    tabJLabelgame[x][y].setForeground(Color.black);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoClef);
+                    tabJLabelgame[x-minX][y-minY].setText(String.valueOf(((Clef) c).getId()));
+                    tabJLabelgame[x-minX][y-minY].setHorizontalTextPosition(JLabel.CENTER);
+                    tabJLabelgame[x-minX][y-minY].setForeground(Color.black);
                 } else if(c instanceof Capsule) {
-                    tabJLabelgame[x][y].setIcon(icoCapsule);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoCapsule);
 
                 }else if(c instanceof Coffre) {
-                    tabJLabelgame[x][y].setIcon(icoCoffre);
+                    tabJLabelgame[x-minX][y-minY].setIcon(icoCoffre);
 
                 }
             }
         }
 
-        for(int y = 0 ; y < sizeY ; y++){
+        //mise a jour de l'inventaire
+        for(int y = 0 ; y < jeu.TAILLE_SALLE ; y++){
 
             if(y < jeu.getHeros().getInventaire().getCollectiblesTab().length){
                 Collectible ic = jeu.getHeros().getInventaire().getCollectiblesTab()[y];
@@ -221,7 +230,7 @@ public class VueControleur extends JFrame implements Observer {
 
                 }
             }else{
-                if(y + 1 <  sizeY) {
+                if(y + 1 <   jeu.TAILLE_SALLE) {
                     tabJLabelinventaire[y + 1].setIcon(null);
                     tabJLabelinventaire[y + 1].setText(null);
                 }
@@ -231,7 +240,7 @@ public class VueControleur extends JFrame implements Observer {
 
         tabJLabelinventaire[0].setText("-- Inventaire --");
 
-        tabJLabelgame[jeu.getHeros().getX()][jeu.getHeros().getY()].setIcon(icoHero[jeu.getHeros().getOrientation()]);
+        tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHero[jeu.getHeros().getOrientation()]);
 
     }
 

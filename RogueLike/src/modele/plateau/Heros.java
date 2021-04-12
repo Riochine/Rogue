@@ -161,6 +161,8 @@ public class Heros {
     public void action() {
         int x = getX(), y = getY();
 
+        //jeu.getTabRangLvl();
+
         switch (getOrientation()) {
             case O_UP: y--; break;
             case O_RIGHT: x++; break;

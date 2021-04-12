@@ -19,6 +19,7 @@ public class Jeu extends Observable implements Runnable {
 
     public static final int SIZE_X = 18;
     public static final int SIZE_Y = 16;
+    public static final int TAILLE_SALLE = 5;
 
     //Constantes pour l'orientation du joueur
     private final int O_UP = 0;
@@ -33,14 +34,71 @@ public class Jeu extends Observable implements Runnable {
     private EntiteStatique[][] grilleEntitesStatiques = new EntiteStatique[SIZE_X][SIZE_Y];
     private Collectible[][] grilleEntitesCollectibles = new Collectible[SIZE_X][SIZE_Y];
 
+    private int [][]tabCoorSalle;
+    private int currentLvl;
+
     public Jeu() {
         heros = new Heros(this, 1, 1);
         morceauDeNiveauStandard();
-        morceauDeNiveau0(0,0);
-        morceauDeNiveau1(5,0);
-        morceauDeNiveau2(6,5);
-        morceauDeNiveau3(11,5);
-        morceauDeNiveau4(12,10);
+        currentLvl = 0;
+        tabCoorSalle = new int[][]{
+                new int[] {0,0},
+                new int[] {5,0},
+                new int[] {6,5},
+                new int[] {11,5},
+                new int[] {12,10}
+        };
+
+        morceauDeNiveau0(tabCoorSalle[0][0],tabCoorSalle[0][1]);
+        morceauDeNiveau1(tabCoorSalle[1][0],tabCoorSalle[1][1]);
+        morceauDeNiveau2(tabCoorSalle[2][0],tabCoorSalle[2][1]);
+        morceauDeNiveau3(tabCoorSalle[3][0],tabCoorSalle[3][1]);
+        morceauDeNiveau4(tabCoorSalle[4][0],tabCoorSalle[4][1]);
+
+
+
+    }
+
+    private void changementLvl(){
+        /*for(int i = 0 ; i < tabCoorNiveau.length ; i++) {
+            if (
+                    inRang(tabCoorNiveau[i], new int[]{heros.getX(), heros.getY()})
+                            && currentLvl != i) {
+                currentLvl = i;
+                //appel de la fonction qui charge un nouveau niveau;
+                break;
+            }
+        }*/
+    }
+    private int currentLvl(){
+        return currentLvl;
+    }
+    public boolean dansLaPlage(int temoin [] ,int verif []){
+        return verif[0] >= temoin[0]
+                && verif[0] < temoin[0] + TAILLE_SALLE
+                && verif[1] >= temoin[1]
+                && verif[1] < temoin[1] + TAILLE_SALLE;
+    }
+    public int [][] contruitNouvellePlage(int offset []){
+        return new int[][]{
+                new int[]{offset[0],offset[0] + TAILLE_SALLE},
+                new int[]{offset[1],offset[1] + TAILLE_SALLE}
+        };
+    }
+    public int [][] nouvelleSalle(){
+        for(int i = 0 ; i < tabCoorSalle.length ; i++) {
+            if (
+                    dansLaPlage(tabCoorSalle[i], new int[]{heros.getX(), heros.getY()})
+                            && currentLvl != i) {
+                currentLvl = i;
+                return contruitNouvellePlage(tabCoorSalle[i]);
+            }
+        }
+        return contruitNouvellePlage(tabCoorSalle[currentLvl]);
+    }
+
+    public int [][] getTabCoorSalle(){
+        return tabCoorSalle;
     }
 
     public Heros getHeros() {
@@ -236,6 +294,9 @@ public class Jeu extends Observable implements Runnable {
     private void addEntiteStatique(EntiteStatique e, int x, int y) {
         grilleEntitesStatiques[x][y] = e;
 
+    }
+    private  void clearEntiteStatique(){
+        grilleEntitesStatiques = new EntiteStatique[SIZE_X][SIZE_Y];
     }
 
     private void addEntiteCollectible(Collectible e, int x, int y) {

@@ -47,6 +47,16 @@ public class Inventaire {
     }
 
     public void supprimerCapsule() {
-        inventaire.removeIf(cl -> cl instanceof Capsule);
+        int i = 0;
+        for(Collectible col :inventaire) {
+            if (col instanceof Capsule){
+                inventaire.remove(i);
+                break;
+            }
+            i++;
+        }
+    }
+    public void supprimerCapsuleTout(){
+        inventaire.removeIf(c ->c instanceof  Capsule);
     }
 }
