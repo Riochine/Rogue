@@ -35,12 +35,12 @@ public class Jeu extends Observable implements Runnable {
     private Collectible[][] grilleEntitesCollectibles = new Collectible[SIZE_X][SIZE_Y];
 
     private int [][]tabCoorSalle;
-    private int currentLvl;
+    private int salleCourante;
 
     public Jeu() {
         heros = new Heros(this, 1, 1);
         morceauDeNiveauStandard();
-        currentLvl = 0;
+        salleCourante = 0;
 
         //construcion d'un tableau de coordonee de niveau
         tabCoorSalle = new int[][]{
@@ -58,8 +58,8 @@ public class Jeu extends Observable implements Runnable {
         morceauDeNiveau4(tabCoorSalle[4][0],tabCoorSalle[4][1]);
     }
 
-    private int currentLvl(){
-        return currentLvl;
+    private int getSalleCourante(){
+        return salleCourante;
     }
 
     //*****Pour le coté vue
@@ -87,14 +87,14 @@ public class Jeu extends Observable implements Runnable {
         for(int i = 0 ; i < tabCoorSalle.length ; i++) {
             if (
                     dansLaPlage(tabCoorSalle[i], new int[]{heros.getX(), heros.getY()})
-                            && currentLvl != i) {
-                currentLvl = i;
+                            && salleCourante != i) {
+                salleCourante = i;
                 heros.getInventaire().supprimerCapsuleTout();
                 heros.getInventaire().ajouter(new Capsule());
                 return contruitNouvellePlage(tabCoorSalle[i]);
             }
         }
-        return contruitNouvellePlage(tabCoorSalle[currentLvl]);
+        return contruitNouvellePlage(tabCoorSalle[salleCourante]);
     }
 
     public int [][] getTabCoorSalle(){
