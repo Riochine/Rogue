@@ -53,7 +53,7 @@ public class VueControleur extends JFrame implements Observer {
     private ImageIcon icoUnique;
 
     private JLabel[][] tabJLabelgame; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
-    private JLabel[] tabJLabelinventaire; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
+    private JLabel[][] tabJLabelinventaire; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
 
     public VueControleur(Jeu _jeu) {
@@ -119,12 +119,12 @@ public class VueControleur extends JFrame implements Observer {
 
         JPanel masterPanel = new JPanel(new BorderLayout());
         JComponent gameJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
-        JComponent inventaireJLabels = new JPanel(new GridLayout(sizeY, 1)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
+        JComponent inventaireJLabels = new JPanel(new GridLayout(sizeY, 2)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
 
         masterPanel.add(gameJLabels,BorderLayout.CENTER);
         masterPanel.add(inventaireJLabels,BorderLayout.EAST);
         tabJLabelgame = new JLabel[sizeX][sizeY];
-        tabJLabelinventaire = new JLabel[sizeY];
+        tabJLabelinventaire = new JLabel[2][sizeY];
 
         //pré construction de la fenetre de jeu
         for (int y = 0; y < sizeY; y++) {
@@ -135,10 +135,12 @@ public class VueControleur extends JFrame implements Observer {
             }
         }
         //pré construction de la fenetre d'inventaire
-        for (int y = 0 ; y < sizeY ; y++){
+        for (int y = 0 ; y < sizeY ; y++) {
+            for (int x = 0; x < 2; x++) {
                 JLabel jlab = new JLabel();
-                tabJLabelinventaire[y] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
+                tabJLabelinventaire[x][y] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
                 inventaireJLabels.add(jlab);
+            }
         }
         add(masterPanel);
     }
@@ -205,40 +207,43 @@ public class VueControleur extends JFrame implements Observer {
         }
 
         //mise a jour de l'inventaire
+        int ci = 0;
         for(int y = 0 ; y < jeu.TAILLE_SALLE ; y++){
+            for (int x = 0 ; x < 2 ; x++){
+                if(ci < jeu.getHeros().getInventaire().getCollectiblesTab().length){
+                    Collectible ic = jeu.getHeros().getInventaire().getCollectiblesTab()[ci];
 
-            if(y < jeu.getHeros().getInventaire().getCollectiblesTab().length){
-                Collectible ic = jeu.getHeros().getInventaire().getCollectiblesTab()[y];
+                    int y_tmp = y + 1;
 
-                int y_tmp = y + 1;
+                    //reset le text du JLabel
+                    tabJLabelinventaire[x][y_tmp].setText(null);
 
-                //reset le text du JLabel
-                tabJLabelinventaire[y_tmp].setText(null);
+                    if(ic instanceof Clef) {
+                        tabJLabelinventaire[x][y_tmp].setIcon(icoClef);
+                        //tabJLabelinventaire[y].setHorizontalTextPosition(JLabel.CENTER);
 
-                if(ic instanceof Clef) {
-                    tabJLabelinventaire[y_tmp].setIcon(icoClef);
-                    //tabJLabelinventaire[y].setHorizontalTextPosition(JLabel.CENTER);
+                        tabJLabelinventaire[x][y_tmp].setText("Porte n° " + String.valueOf(((Clef) ic).getId()));
+                        tabJLabelinventaire[x][y_tmp].setForeground(Color.black);
+                    } else if(ic instanceof Capsule) {
+                        tabJLabelinventaire[x][y_tmp].setIcon(icoCapsule);
+                        tabJLabelinventaire[x][y_tmp].setText("Eau");
 
-                    tabJLabelinventaire[y_tmp].setText("Porte n° " + String.valueOf(((Clef) ic).getId()));
-                    tabJLabelinventaire[y_tmp].setForeground(Color.black);
-                } else if(ic instanceof Capsule) {
-                    tabJLabelinventaire[y_tmp].setIcon(icoCapsule);
-                    tabJLabelinventaire[y_tmp].setText("Eau");
+                    }else if(ic instanceof Coffre) {
+                        tabJLabelinventaire[x][y_tmp].setIcon(icoCoffre);
 
-                }else if(ic instanceof Coffre) {
-                    tabJLabelinventaire[y_tmp].setIcon(icoCoffre);
-
+                    }
+                }else{
+                    if(y + 1 < jeu.TAILLE_SALLE) {
+                        tabJLabelinventaire[x][y + 1].setIcon(null);
+                        tabJLabelinventaire[x][y + 1].setText(null);
+                    }
                 }
-            }else{
-                if(y + 1 < jeu.TAILLE_SALLE) {
-                    tabJLabelinventaire[y + 1].setIcon(null);
-                    tabJLabelinventaire[y + 1].setText(null);
-                }
+                ci++;
             }
 
         }
 
-        tabJLabelinventaire[0].setText("-- Inventaire --");
+        tabJLabelinventaire[0][0].setText("-- Inventaire --");
 
         //mise a jour de la position du hero dans la fenettre
         tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHero[jeu.getHeros().getOrientation()]);

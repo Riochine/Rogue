@@ -218,7 +218,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
-        Collectible [] tabcol = {new Clef(2),new Clef(3),new Capsule()};
+        Collectible [] tabcol = {new Clef(3),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau2(int offsetX, int offsetY){
@@ -231,7 +231,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
 
-        Collectible [] tabcol = {new Coffre(),new Clef(5),new Clef(6),new Capsule()};
+        Collectible [] tabcol = {new Coffre(),new Clef(6),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau3(int offsetX, int offsetY){
@@ -243,7 +243,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
-        Collectible [] tabcol = {new Clef(8),new Clef(9),new Capsule()};
+        Collectible [] tabcol = {new Clef(9),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau4(int offsetX, int offsetY){
@@ -254,7 +254,7 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
-        Collectible [] tabcol = {new Clef(11),new Coffre(),new Capsule()};
+        Collectible [] tabcol = {new Coffre(),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveauMur(int offsetX, int offsetY){
