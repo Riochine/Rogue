@@ -91,6 +91,8 @@ public class Jeu extends Observable implements Runnable {
                     dansLaPlage(tabCoorSalle[i], new int[]{heros.getX(), heros.getY()})
                             && currentLvl != i) {
                 currentLvl = i;
+                heros.getInventaire().supprimerCapsuleTout();
+                heros.getInventaire().ajouter(new Capsule());
                 return contruitNouvellePlage(tabCoorSalle[i]);
             }
         }
