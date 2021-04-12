@@ -57,8 +57,10 @@ public class VueControleur extends JFrame implements Observer {
 
 
     public VueControleur(Jeu _jeu) {
-        sizeX = _jeu.TAILLE_SALLE;
-        sizeY = _jeu.TAILLE_SALLE;
+        /*sizeX = _jeu.TAILLE_SALLE;
+        sizeY = _jeu.TAILLE_SALLE;*/
+        sizeX = _jeu.SIZE_X;
+        sizeY = _jeu.SIZE_Y;
         jeu = _jeu;
 
         chargerLesIcones();
@@ -150,11 +152,15 @@ public class VueControleur extends JFrame implements Observer {
      * Il y a une grille du côté du modèle ( jeu.getGrille() ) et une grille du côté de la vue (tabJLabel)
      */
     private void mettreAJourAffichage() {
-        int tabNewCoord [][] = jeu.nouvelleSalle();
+        /*int tabNewCoord [][] = jeu.nouvelleSalle();
         int minX = tabNewCoord[0][0];
         int maxX = tabNewCoord[0][1];
         int minY = tabNewCoord[1][0];
-        int maxY = tabNewCoord[1][1];
+        int maxY = tabNewCoord[1][1];*/
+        int minX = 0;
+        int maxX = sizeX;
+        int minY = 0;
+        int maxY = sizeY;
 
         //Mise a jour du jeu
         for (int x = minX; x < maxX; x++) {

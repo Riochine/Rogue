@@ -17,8 +17,8 @@ import java.util.Random;
 
 public class Jeu extends Observable implements Runnable {
 
-    public static final int SIZE_X = 18;
-    public static final int SIZE_Y = 16;
+    public static final int SIZE_X = 15;
+    public static final int SIZE_Y = 15;
     public static final int TAILLE_SALLE = 5;
 
     //Constantes pour l'orientation du joueur
@@ -46,9 +46,13 @@ public class Jeu extends Observable implements Runnable {
         tabCoorSalle = new int[][]{
                 new int[] {0,0},
                 new int[] {5,0},
-                new int[] {6,5},
-                new int[] {11,5},
-                new int[] {12,10}
+                new int[] {10,0},
+                new int[] {0,5},
+                new int[] {5,5},
+                new int[] {10,5},
+                new int[] {0,10},
+                new int[] {5,10},
+                new int[] {10,10}
         };
         //placement des niveaux selon ces même coordonee
         morceauDeNiveau0(tabCoorSalle[0][0],tabCoorSalle[0][1]);
@@ -56,6 +60,10 @@ public class Jeu extends Observable implements Runnable {
         morceauDeNiveau2(tabCoorSalle[2][0],tabCoorSalle[2][1]);
         morceauDeNiveau3(tabCoorSalle[3][0],tabCoorSalle[3][1]);
         morceauDeNiveau4(tabCoorSalle[4][0],tabCoorSalle[4][1]);
+        morceauDeNiveau5(tabCoorSalle[5][0],tabCoorSalle[5][1]);
+        morceauDeNiveau6(tabCoorSalle[6][0],tabCoorSalle[6][1]);
+        morceauDeNiveau7(tabCoorSalle[7][0],tabCoorSalle[7][1]);
+        morceauDeNiveau8(tabCoorSalle[8][0],tabCoorSalle[8][1]);
     }
 
     private int getSalleCourante(){
@@ -199,18 +207,17 @@ public class Jeu extends Observable implements Runnable {
 
     }
     private void morceauDeNiveau0(int offsetX, int offsetY){
-        morceauDeNiveauMur(offsetX,offsetY);
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"oui"});
 
         addEntiteStatique(new Porte(this,0), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 2 + offsetX, 3 + offsetY);
-        addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
-        addEntiteStatique(new CaseUnique(this, 0), 3 + offsetX, 1 + offsetY);
+        addEntiteStatique(new CaseFeu(this), 2 + offsetX, 3 + offsetY);
 
-        Collectible [] tabcol = {new Clef(0),new Capsule(),new Coffre(new Collectible[]{new Capsule(),new Capsule()})};
+        Collectible [] tabcol = {new Clef(0),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau1(int offsetX, int offsetY){
-        morceauDeNiveauMur(offsetX,offsetY);
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"oui"});
 
 
         addEntiteStatique(new CaseUnique(this,0), 2 + offsetX, 1 + offsetY);
@@ -218,58 +225,119 @@ public class Jeu extends Observable implements Runnable {
         addEntiteStatique(new CaseVide(this), 2 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseUnique(this,0), 3 + offsetX, 2 + offsetY);
         addEntiteStatique(new Mur(this), 2 + offsetX, 3 + offsetY);
-        addEntiteCollectible(new Clef(3), 3 + offsetX, 3 + offsetY);
+        addEntiteCollectible(new Clef(2), 3 + offsetX, 3 + offsetY);
         addEntiteStatique(new Porte(this,0), 0 + offsetX, 2 + offsetY);
-        addEntiteStatique(new Porte(this,3), 1 + offsetX, 4 + offsetY);
+        addEntiteStatique(new Porte(this,2), 1 + offsetX, 4 + offsetY);
 
         Collectible [] tabcol = {new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau2(int offsetX, int offsetY){
-        morceauDeNiveauMur(offsetX,offsetY);
-
-        addEntiteStatique(new Porte(this,3), 1 + offsetX, 0 + offsetY);
-        addEntiteStatique(new Porte(this,5), 2 + offsetX, 4 + offsetY);
-        addEntiteStatique(new Porte(this,6), 4 + offsetX, 2 + offsetY);
-        addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
-        addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
-
-
-        Collectible [] tabcol = {new Coffre(),new Clef(6),new Capsule()};
-        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"ouvertVerticale","haut"});
     }
     private void morceauDeNiveau3(int offsetX, int offsetY){
-        morceauDeNiveauMur(offsetX,offsetY);
-
-        addEntiteStatique(new Porte(this,6), 0 + offsetX, 2 + offsetY);
-        addEntiteStatique(new Porte(this,8), 4 + offsetX, 2 + offsetY);
-        addEntiteStatique(new Porte(this,9), 2 + offsetX, 4 + offsetY);
-        addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
-        addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
-
-        Collectible [] tabcol = {new Clef(9),new Capsule()};
-        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"ouvertVerticale","haut"});
     }
     private void morceauDeNiveau4(int offsetX, int offsetY){
-        morceauDeNiveauMur(offsetX,offsetY);
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"oui"});
 
-        addEntiteStatique(new Porte(this,9), 1 + offsetX, 0 + offsetY);
-        addEntiteStatique(new Porte(this,11), 4 + offsetX, 2 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 1 + offsetX, 1 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 1 + offsetX, 2 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 1 + offsetX, 3 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 2 + offsetX, 1 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 2 + offsetX, 2 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 2 + offsetX, 3 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 3 + offsetX, 1 + offsetY);
+        addEntiteCollectible(new Clef(4), 3 + offsetX, 2 + offsetY);
+        addEntiteStatique(new CaseFeu(this), 3 + offsetX, 3 + offsetY);
+
+        addEntiteStatique(new Porte(this,2), 1 + offsetX, 0 + offsetY);
+        addEntiteStatique(new Porte(this,4), 1 + offsetX, 4 + offsetY);
+
+
+        Collectible [] tabcol = {};
+        tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
+    }
+    private void morceauDeNiveau5(int offsetX, int offsetY){
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"ouvertVerticale"});
+    }
+    private void morceauDeNiveau6(int offsetX, int offsetY){
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"gauche","bas"});
+    }
+    private void morceauDeNiveau7(int offsetX, int offsetY){
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"ouvertHorizontale","droite"});
+
+        addEntiteStatique(new Porte(this,4), 1 + offsetX, 0 + offsetY);
+        addEntiteStatique(new Porte(this,8), 4 + offsetX, 2 + offsetY);
         addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
         addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
-        Collectible [] tabcol = {new Coffre(),new Capsule()};
+        Collectible [] tabcol = {new Clef(8),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
-    private void morceauDeNiveauMur(int offsetX, int offsetY){
-        for (int x = offsetX; x < 5 + offsetX; x++) {
-            addEntiteStatique(new Mur(this), x, 0 + offsetY);
-            addEntiteStatique(new Mur(this), x, 4 + offsetY);
-        }
-        // murs extérieurs verticaux
-        for (int y = offsetY +1 ; y < 4 + offsetY; y++) {
-            addEntiteStatique(new Mur(this), 0 + offsetX, y);
-            addEntiteStatique(new Mur(this), 4 + offsetX, y);
+    private void morceauDeNiveau8(int offsetX, int offsetY){
+        morceauDeNiveauMur(offsetX,offsetY,new String []{"ouvertVerticale","bas"});
+
+        addEntiteStatique(new Porte(this,8), 0+ offsetX, 2 + offsetY);
+    }
+    private void morceauDeNiveauMur(int offsetX, int offsetY, String []placementMur){
+        for(String i:placementMur){
+            switch(i) {
+                case "oui":
+                {
+                    for (int x = offsetX ; x < TAILLE_SALLE + offsetX; x++) {
+                        addEntiteStatique(new Mur(this), x, 0 + offsetY);
+                        addEntiteStatique(new Mur(this), x, 4 + offsetY);
+                    }
+                    // murs extérieurs verticaux
+                    for (int y = offsetY ; y < TAILLE_SALLE + offsetY; y++) {
+                        addEntiteStatique(new Mur(this), 0 + offsetX, y);
+                        addEntiteStatique(new Mur(this), 4 + offsetX, y);
+                    }
+                }
+                case "ouvertVerticale": //gauche
+                {
+                    for (int y = offsetY ; y < TAILLE_SALLE + offsetY; y++) {
+                        addEntiteStatique(new Mur(this), 0 + offsetX, y);
+                    }
+                }
+                case "droite":
+                {
+                    for (int y = offsetY ; y < TAILLE_SALLE + offsetY; y++) {
+                        addEntiteStatique(new Mur(this), 4 + offsetX, y);
+                    }
+                }
+                    break;
+                case "gauche":
+                {
+                    for (int y = offsetY ; y < TAILLE_SALLE + offsetY; y++) {
+                        addEntiteStatique(new Mur(this), 0 + offsetX, y);
+                    }
+                }
+                    break;
+                case "ouvertHorizontale": //haut
+                {
+                    for (int x = offsetX ; x < TAILLE_SALLE + offsetX; x++) {
+                        addEntiteStatique(new Mur(this), x ,0 + offsetY);
+                    }
+                }
+                case "bas":
+                {
+                    for (int x = offsetX ; x < TAILLE_SALLE + offsetX; x++) {
+                        addEntiteStatique(new Mur(this), x ,4 + offsetY);
+                    }
+                }
+                    break;
+                case "haut":
+                {
+                    for (int x = offsetX ; x < TAILLE_SALLE + offsetX; x++) {
+                        addEntiteStatique(new Mur(this), x ,0 + offsetY);
+                    }
+                }
+                    break;
+                default:
+                    // code block
+            }
         }
     }
 
