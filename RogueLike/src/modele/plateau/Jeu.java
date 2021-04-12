@@ -41,6 +41,8 @@ public class Jeu extends Observable implements Runnable {
         heros = new Heros(this, 1, 1);
         morceauDeNiveauStandard();
         currentLvl = 0;
+
+        //construcion d'un tableau de coordonee de niveau
         tabCoorSalle = new int[][]{
                 new int[] {0,0},
                 new int[] {5,0},
@@ -48,43 +50,39 @@ public class Jeu extends Observable implements Runnable {
                 new int[] {11,5},
                 new int[] {12,10}
         };
-
+        //placement des niveaux selon ces même coordonee
         morceauDeNiveau0(tabCoorSalle[0][0],tabCoorSalle[0][1]);
         morceauDeNiveau1(tabCoorSalle[1][0],tabCoorSalle[1][1]);
         morceauDeNiveau2(tabCoorSalle[2][0],tabCoorSalle[2][1]);
         morceauDeNiveau3(tabCoorSalle[3][0],tabCoorSalle[3][1]);
         morceauDeNiveau4(tabCoorSalle[4][0],tabCoorSalle[4][1]);
-
-
-
     }
 
-    private void changementLvl(){
-        /*for(int i = 0 ; i < tabCoorNiveau.length ; i++) {
-            if (
-                    inRang(tabCoorNiveau[i], new int[]{heros.getX(), heros.getY()})
-                            && currentLvl != i) {
-                currentLvl = i;
-                //appel de la fonction qui charge un nouveau niveau;
-                break;
-            }
-        }*/
-    }
     private int currentLvl(){
         return currentLvl;
     }
-    public boolean dansLaPlage(int temoin [] ,int verif []){
+
+    //*****Pour le coté vue
+    //on regarde si le x y du temoin est bien dans la plage de valeur (verif + TAILLE_SALLE)
+    private boolean dansLaPlage(int temoin [] ,int verif []){
         return verif[0] >= temoin[0]
                 && verif[0] < temoin[0] + TAILLE_SALLE
                 && verif[1] >= temoin[1]
                 && verif[1] < temoin[1] + TAILLE_SALLE;
     }
-    public int [][] contruitNouvellePlage(int offset []){
+    //*****Pour le coté vue
+    //on construit une nouvelle plage de valeur
+    private int [][] contruitNouvellePlage(int offset []){
         return new int[][]{
                 new int[]{offset[0],offset[0] + TAILLE_SALLE},
                 new int[]{offset[1],offset[1] + TAILLE_SALLE}
         };
     }
+    //*****Pour le coté vue
+    //Si jamais notre heros sort des limites de la salle courante
+    //  -suppression des capsules
+    //  -Ajout d'une capsule
+    //  -donne de nouvelles dimention pour l'affichage
     public int [][] nouvelleSalle(){
         for(int i = 0 ; i < tabCoorSalle.length ; i++) {
             if (

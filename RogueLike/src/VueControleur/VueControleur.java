@@ -230,7 +230,7 @@ public class VueControleur extends JFrame implements Observer {
 
                 }
             }else{
-                if(y + 1 <   jeu.TAILLE_SALLE) {
+                if(y + 1 < jeu.TAILLE_SALLE) {
                     tabJLabelinventaire[y + 1].setIcon(null);
                     tabJLabelinventaire[y + 1].setText(null);
                 }
@@ -240,6 +240,7 @@ public class VueControleur extends JFrame implements Observer {
 
         tabJLabelinventaire[0].setText("-- Inventaire --");
 
+        //mise a jour de la position du hero dans la fenettre
         tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHero[jeu.getHeros().getOrientation()]);
 
     }
