@@ -3,7 +3,7 @@ package collectible;
 import java.util.ArrayList;
 
 public class Coffre extends Collectible {
-    ArrayList<Collectible> tabColl;
+    private ArrayList<Collectible> tabColl;
     public Coffre(){
         super( "Coffre");
         tabColl = new ArrayList<Collectible>();

@@ -212,13 +212,17 @@ public class Jeu extends Observable implements Runnable {
     private void morceauDeNiveau1(int offsetX, int offsetY){
         morceauDeNiveauMur(offsetX,offsetY);
 
-        addEntiteStatique(new Porte(this,0), 0 + offsetX, 2 + offsetY);
-        addEntiteStatique(new Porte(this,2), 4 + offsetX, 2 + offsetY);
-        addEntiteStatique(new Porte(this,3), 2 + offsetX, 4 + offsetY);
-        addEntiteStatique(new CaseVide(this), 1 + offsetX, 3 + offsetY);
-        addEntiteStatique(new CaseFeu(this), 1 + offsetX, 2 + offsetY);
 
-        Collectible [] tabcol = {new Clef(3),new Capsule()};
+        addEntiteStatique(new CaseUnique(this,0), 2 + offsetX, 1 + offsetY);
+
+        addEntiteStatique(new CaseVide(this), 2 + offsetX, 2 + offsetY);
+        addEntiteStatique(new CaseUnique(this,0), 3 + offsetX, 2 + offsetY);
+        addEntiteStatique(new Mur(this), 2 + offsetX, 3 + offsetY);
+        addEntiteCollectible(new Clef(3), 3 + offsetX, 3 + offsetY);
+        addEntiteStatique(new Porte(this,0), 0 + offsetX, 2 + offsetY);
+        addEntiteStatique(new Porte(this,3), 1 + offsetX, 4 + offsetY);
+
+        Collectible [] tabcol = {new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
     }
     private void morceauDeNiveau2(int offsetX, int offsetY){
