@@ -4,11 +4,11 @@ import modele.plateau.Jeu;
 
 public class CaseUnique extends EntiteStatique{
 
-    int nbPassage = 0;
-    int passageMax;
-    public CaseUnique(Jeu _jeu,int max){
+    private int nbPassage = 0;
+    private int passageMax;
+    public CaseUnique(Jeu _jeu,int _max){
         super(_jeu);
-        passageMax = max;
+        passageMax = _max;
     }
 
     public boolean incrementPassage(){

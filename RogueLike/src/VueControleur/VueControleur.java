@@ -33,14 +33,8 @@ public class VueControleur extends JFrame implements Observer {
     private int sizeX; // taille de la grille affichée
     private int sizeY;
 
-    //Constantes pour l'orientation du joueur
-    private final int O_UP = 0;
-    private final int O_RIGHT = 1;
-    private final int O_DOWN = 2;
-    private final int O_LEFT = 3;
-
     // icones affichées dans la grille
-    private ImageIcon[] icoHero = new ImageIcon[4];
+    private ImageIcon[] icoHeros = new ImageIcon[4];
     private ImageIcon icoCaseNormale;
     private ImageIcon icoMur;
     private ImageIcon icoVide;
@@ -73,10 +67,10 @@ public class VueControleur extends JFrame implements Observer {
             @Override
             public void keyPressed(KeyEvent e) {
                 switch(e.getKeyCode()) {  // on regarde quelle touche a été pressée
-                    case KeyEvent.VK_LEFT : jeu.getHeros().changer_direction(O_LEFT); break;
-                    case KeyEvent.VK_RIGHT : jeu.getHeros().changer_direction(O_RIGHT);break;
-                    case KeyEvent.VK_DOWN : jeu.getHeros().changer_direction(O_DOWN); break;
-                    case KeyEvent.VK_UP : jeu.getHeros().changer_direction(O_UP); break;
+                    case KeyEvent.VK_LEFT : jeu.getHeros().changer_direction(jeu.getHeros().O_LEFT); break;
+                    case KeyEvent.VK_RIGHT : jeu.getHeros().changer_direction(jeu.getHeros().O_RIGHT);break;
+                    case KeyEvent.VK_DOWN : jeu.getHeros().changer_direction(jeu.getHeros().O_DOWN); break;
+                    case KeyEvent.VK_UP : jeu.getHeros().changer_direction(jeu.getHeros().O_UP); break;
                     case KeyEvent.VK_I: jeu.getHeros().afficherInventaire(); break;
                     case KeyEvent.VK_SPACE : jeu.getHeros().action(); break;
                 }
@@ -86,10 +80,10 @@ public class VueControleur extends JFrame implements Observer {
 
 
     private void chargerLesIcones() {
-        icoHero[0] = chargerIcone("Images/Player_UP.png");
-        icoHero[1] = chargerIcone("Images/Player_RIGHT.png");
-        icoHero[2] = chargerIcone("Images/Player_DOWN.png");
-        icoHero[3] = chargerIcone("Images/Player_LEFT.png");
+        icoHeros[0] = chargerIcone("Images/Player_UP.png");
+        icoHeros[1] = chargerIcone("Images/Player_RIGHT.png");
+        icoHeros[2] = chargerIcone("Images/Player_DOWN.png");
+        icoHeros[3] = chargerIcone("Images/Player_LEFT.png");
         icoCaseNormale = chargerIcone("Images/Normale.png");
         icoMur = chargerIcone("Images/Mur.png");
         icoVide = chargerIcone("Images/Vide.png");
@@ -252,7 +246,7 @@ public class VueControleur extends JFrame implements Observer {
         tabJLabelinventaire[0][0].setText("-- Inventaire --");
 
         //mise a jour de la position du hero dans la fenettre
-        tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHero[jeu.getHeros().getOrientation()]);
+        tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHeros[jeu.getHeros().getOrientation()]);
 
     }
 
