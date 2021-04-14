@@ -1,6 +1,7 @@
 package modele.plateau;
 
 import collectible.Capsule;
+import collectible.Coffre;
 import collectible.Collectible;
 
 import java.util.ArrayList;

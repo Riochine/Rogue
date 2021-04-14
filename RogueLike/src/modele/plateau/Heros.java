@@ -173,6 +173,7 @@ public class Heros {
      * Différentes actions du joueur selon ce qu'il se trouve devant lui
      */
 
+
     public void action() {
         int x = getX(), y = getY();
 

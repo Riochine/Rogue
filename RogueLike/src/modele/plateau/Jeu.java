@@ -269,7 +269,7 @@ public class Jeu extends Observable implements Runnable {
             EntiteStatique e = getEntiteStatique(coords[0], coords[1]);
             Collectible c = getEntiteCollectible(coords[0], coords[1]);
             found = ((e instanceof CaseNormale || e instanceof CaseUnique) &&
-                    (c == null /*|| c instanceof Coffre*/));
+                    (c == null || c instanceof Coffre));
         }
 
         return coords;
@@ -505,6 +505,7 @@ public class Jeu extends Observable implements Runnable {
                 new Capsule(),new Capsule()};
         tabRanCollectibleSurMap(tabcol,offsetX,offsetY);
 
+        addEntiteStatique(new CaseNormale(this), 0+ offsetX, 3 + offsetY);
         addEntiteStatique(new Porte(this,7), 0+ offsetX, 4 + offsetY);
     }
 
