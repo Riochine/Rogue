@@ -255,7 +255,7 @@ public class VueControleur extends JFrame implements Observer {
         }
 
         tabJLabelinventaire[0][0].setText("-- Inventaire --");
-        tabJLabelinfo[0][0].setText("touche d'action: espace | "+jeu.getNomNiveauCourant() + "|" + jeu.getNomSalleCourante());
+        tabJLabelinfo[0][0].setText("touche d'action: espace | touche de reset: r | "+jeu.getNomNiveauCourant() + "|" + jeu.getNomSalleCourante());
 
         //mise a jour de la position du hero dans la fenettre
         tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHeros[jeu.getHeros().getOrientation()]);
