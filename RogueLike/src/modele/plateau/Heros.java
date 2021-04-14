@@ -47,7 +47,6 @@ public class Heros {
     public void caseTypeA(int x,int y){//après
         EntiteStatique ets;
         ets = jeu.getEntiteStatique(x,y);
-        int plage [][] = jeu.getPlage(x,y);
         if (ets instanceof CaseUnique && !((CaseUnique) ets).incrementPassage()){
             jeu.getGrilleEntitesStatiques()[x][y] = new CaseFeu(jeu);
         }
@@ -240,12 +239,13 @@ public class Heros {
                 case O_LEFT: x--; break;
                 default: break;
             }
-
+            caseTypeB(x,y);
             e = jeu.getEntiteStatique(x, y);
             if(e instanceof CaseNormale || e instanceof CaseUnique)
             {
                 this.x = x;
                 this.y = y;
+                caseTypeA(getX(),getY());
             }
         }
     }
