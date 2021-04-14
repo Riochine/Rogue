@@ -62,6 +62,9 @@ public class VueControleur extends JFrame implements Observer {
         placerLesComposantsGraphiques();
         ajouterEcouteurClavier();
     }
+    public void resetJeu(){
+        jeu = new Jeu();
+    }
 
     private void ajouterEcouteurClavier() {
         addKeyListener(new KeyAdapter() { // new KeyAdapter() { ... } est une instance de classe anonyme, il s'agit d'un objet qui correspond au controleur dans MVC
@@ -74,6 +77,7 @@ public class VueControleur extends JFrame implements Observer {
                     case KeyEvent.VK_UP : jeu.getHeros().changer_direction(jeu.getHeros().O_UP); break;
                     case KeyEvent.VK_I: jeu.getHeros().afficherInventaire(); break;
                     case KeyEvent.VK_SPACE : jeu.getHeros().action(); break;
+                    case KeyEvent.VK_R : resetJeu(); break;
                 }
             }
         });
@@ -251,7 +255,7 @@ public class VueControleur extends JFrame implements Observer {
         }
 
         tabJLabelinventaire[0][0].setText("-- Inventaire --");
-        tabJLabelinfo[0][0].setText("----------------"+jeu.getNomNiveauCourant() + "----------------" + jeu.getNomSalleCourante() + "----------------");
+        tabJLabelinfo[0][0].setText("touche d'action: espace | "+jeu.getNomNiveauCourant() + "|" + jeu.getNomSalleCourante());
 
         //mise a jour de la position du hero dans la fenettre
         tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHeros[jeu.getHeros().getOrientation()]);

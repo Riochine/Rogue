@@ -25,7 +25,7 @@ public class Jeu extends Observable implements Runnable {
 
     private Heros heros;
 
-    private EntiteStatique[][] grilleEntitesStatiques = new EntiteStatique[SIZE_X][SIZE_Y];
+    private EntiteStatique[][] grilleEntitesStatiques;
     private Collectible[][] grilleEntitesCollectibles = new Collectible[SIZE_X][SIZE_Y];
 
     private int [][]tabCoorSalle;
@@ -35,6 +35,9 @@ public class Jeu extends Observable implements Runnable {
     private String nomSalleCourante;
 
     public Jeu() {
+        grilleEntitesStatiques = new EntiteStatique[SIZE_X][SIZE_Y];
+        grilleEntitesCollectibles = new Collectible[SIZE_X][SIZE_Y];
+
         heros = new Heros(this, 1, 1);
         morceauDeNiveauStandard();
         coordSalleCourante = new int[]{0,0};
