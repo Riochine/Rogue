@@ -44,11 +44,27 @@ public class Heros {
         orientation = O_DOWN; //Le joueur commence en regardant vers le bas
     }
 
-    public void caseType(int x,int y){
+    public void caseTypeA(int x,int y){//après
         EntiteStatique ets;
         ets = jeu.getEntiteStatique(x,y);
+        int plage [][] = jeu.getPlage(x,y);
         if (ets instanceof CaseUnique && !((CaseUnique) ets).incrementPassage()){
             jeu.getGrilleEntitesStatiques()[x][y] = new CaseFeu(jeu);
+        }
+    }
+    public void caseTypeB(int x,int y){//avant
+        EntiteStatique ets = jeu.getEntiteStatique(x,y);
+        int plage [][] = jeu.getPlage(x,y);
+        if (ets instanceof CaseUnique && ((CaseUnique) ets).traversableInt() == 0){
+            if(jeu.getEntiteCollectible(x,y) instanceof Coffre){
+                Collectible colCoffre[] = ((Coffre) jeu.getEntiteCollectible(x,y)).getTabColl();
+                jeu.getGrilleEntitesCollectibles()[x][y] = null;
+                jeu.tabRanCollectibleSurMap(colCoffre,plage[0][0],plage[1][0]);
+            }else if(jeu.getEntiteCollectible(x,y) instanceof Collectible){
+                Collectible col = jeu.getEntiteCollectible(x,y);
+                jeu.supprimerEntiteCollectible(x,y);
+                jeu.tabRanCollectibleSurMap(new Collectible[]{col},plage[0][0],plage[1][0]);
+            }
         }
     }
 
@@ -85,7 +101,7 @@ public class Heros {
         //On veut pouvoir s'orienter sans forcément avancer d'une case
         if(orientation == newDir)
         {
-            caseType(x,y);
+            caseTypeA(x,y);
             switch (orientation) {
                 case O_UP:
                     haut();
@@ -103,12 +119,12 @@ public class Heros {
                     orientation = O_DOWN;
                     break;
             }
+            caseTypeB(x,y);
         }
         orientation = newDir;
     }
 
     private boolean traversable(int x, int y) {
-
         if (x >0 && x < jeu.SIZE_X && y > 0 && y < jeu.SIZE_Y) {
             return jeu.getEntiteStatique(x, y).traversable();
         } else {

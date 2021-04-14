@@ -54,13 +54,14 @@ public class VueControleur extends JFrame implements Observer {
 
     private JLabel[][] tabJLabelgame; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
     private JLabel[][] tabJLabelinventaire; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
+    private JLabel[][] tabJLabelinfo; // cases graphique (au moment du rafraichissement, chaque case va être associée à une icône, suivant ce qui est présent dans le modèle)
 
 
     public VueControleur(Jeu _jeu) {
-        /*sizeX = _jeu.TAILLE_SALLE;
-        sizeY = _jeu.TAILLE_SALLE;*/
-        sizeX = _jeu.SIZE_X;
-        sizeY = _jeu.SIZE_Y;
+        sizeX = _jeu.TAILLE_SALLE;
+        sizeY = _jeu.TAILLE_SALLE;
+        /*sizeX = _jeu.SIZE_X;
+        sizeY = _jeu.SIZE_Y;*/
         jeu = _jeu;
 
         chargerLesIcones();
@@ -98,7 +99,7 @@ public class VueControleur extends JFrame implements Observer {
         icoCoffre = chargerIcone("Images/Coffre.png");
         icoCapsule= chargerIcone("Images/Capsule.png");
         icoClef = chargerIcone("Images/Clef.png");
-        icoUnique = icoCaseNormale;
+        icoUnique = chargerIcone("Images/Unique.png");;
     }
 
     private ImageIcon chargerIcone(String urlIcone) {
@@ -116,17 +117,20 @@ public class VueControleur extends JFrame implements Observer {
 
     private void placerLesComposantsGraphiques() {
         setTitle("Roguelike");
-        setSize(400, 250);
+        setSize(600, 425);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // permet de terminer l'application à la fermeture de la fenêtre
 
         JPanel masterPanel = new JPanel(new BorderLayout());
         JComponent gameJLabels = new JPanel(new GridLayout(sizeY, sizeX)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
         JComponent inventaireJLabels = new JPanel(new GridLayout(sizeY, 2)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
+        JComponent infoJlabel = new JPanel(new GridLayout(1, sizeX+2)); // grilleJLabels va contenir les cases graphiques et les positionner sous la forme d'une grille
 
         masterPanel.add(gameJLabels,BorderLayout.CENTER);
         masterPanel.add(inventaireJLabels,BorderLayout.EAST);
+        masterPanel.add(infoJlabel,BorderLayout.SOUTH);
         tabJLabelgame = new JLabel[sizeX][sizeY];
         tabJLabelinventaire = new JLabel[2][sizeY];
+        tabJLabelinfo = new JLabel[sizeX + 2][1];
 
         //pré construction de la fenetre de jeu
         for (int y = 0; y < sizeY; y++) {
@@ -144,6 +148,9 @@ public class VueControleur extends JFrame implements Observer {
                 inventaireJLabels.add(jlab);
             }
         }
+            JLabel jlab = new JLabel();
+            tabJLabelinfo[0][0] = jlab; // on conserve les cases graphiques dans tabJLabel pour avoir un accès pratique à celles-ci (voir mettreAJourAffichage() )
+            infoJlabel.add(jlab);
         add(masterPanel);
     }
 
@@ -152,15 +159,15 @@ public class VueControleur extends JFrame implements Observer {
      * Il y a une grille du côté du modèle ( jeu.getGrille() ) et une grille du côté de la vue (tabJLabel)
      */
     private void mettreAJourAffichage() {
-        /*int tabNewCoord [][] = jeu.nouvelleSalle();
+        int tabNewCoord [][] = jeu.nouvelleSalle();
         int minX = tabNewCoord[0][0];
         int maxX = tabNewCoord[0][1];
         int minY = tabNewCoord[1][0];
-        int maxY = tabNewCoord[1][1];*/
-        int minX = 0;
+        int maxY = tabNewCoord[1][1];
+        /*int minX = 0;
         int maxX = sizeX;
         int minY = 0;
-        int maxY = sizeY;
+        int maxY = sizeY;*/
 
         //Mise a jour du jeu
         for (int x = minX; x < maxX; x++) {
@@ -250,8 +257,9 @@ public class VueControleur extends JFrame implements Observer {
         }
 
         tabJLabelinventaire[0][0].setText("-- Inventaire --");
+        tabJLabelinfo[0][0].setText("----------------"+jeu.getNomNiveauCourant() + "----------------" + jeu.getNomSalleCourante() + "----------------");
 
-        //mise a jour de la position du hero dans la fenettre
+        //mise a jour de la position du hero dans la fenetre
         tabJLabelgame[jeu.getHeros().getX()-minX][jeu.getHeros().getY()-minY].setIcon(icoHero[jeu.getHeros().getOrientation()]);
 
     }

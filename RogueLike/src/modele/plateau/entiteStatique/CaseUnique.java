@@ -15,8 +15,16 @@ public class CaseUnique extends EntiteStatique{
         nbPassage++;
         return traversable();
     }
+
     @Override
     public boolean traversable() {
+        return traversableBool();
+    }
+
+    public boolean traversableBool() {
         return nbPassage <= passageMax;
+    }
+    public int traversableInt() {
+        return passageMax - nbPassage;
     }
 }
