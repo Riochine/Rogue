@@ -21,12 +21,6 @@ public class Jeu extends Observable implements Runnable {
     public static final int SIZE_Y = 15;
     public static final int TAILLE_SALLE = 5;
 
-    //Constantes pour l'orientation du joueur
-    private final int O_UP = 0;
-    private final int O_RIGHT = 1;
-    private final int O_DOWN = 2;
-    private final int O_LEFT = 3;
-
     private int pause = 200; // période de rafraichissement
 
     private Heros heros;

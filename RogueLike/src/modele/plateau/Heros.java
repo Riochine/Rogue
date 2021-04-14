@@ -19,10 +19,10 @@ public class Heros {
     private int orientation;
 
     //Constantes pour l'orientation du joueur
-    private final int O_UP = 0;
-    private final int O_RIGHT = 1;
-    private final int O_DOWN = 2;
-    private final int O_LEFT = 3;
+    public final int O_UP = 0;
+    public final int O_RIGHT = 1;
+    public final int O_DOWN = 2;
+    public final int O_LEFT = 3;
 
     private Inventaire inventaire;
 
